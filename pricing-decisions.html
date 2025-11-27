@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Decisions | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Decision Cards */
+        .decision-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .decision-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .decision-card:hover {
+            border-color: var(--light-teal);
+            transform: translateY(-3px);
+        }
+
+        .decision-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .decision-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* Decision Detail */
+        .decision-detail {
+            display: none;
+        }
+
+        .decision-detail.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-teal);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        .detail-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .detail-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Questions Flow */
+        .question-box {
+            background: var(--soft-gold);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .question-box h4 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary-teal);
+            margin-bottom: 14px;
+        }
+
+        .answer-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .answer-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 14px 20px;
+            border: 2px solid var(--primary-teal);
+            background: white;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-teal);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .answer-btn:hover {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        /* Result Box */
+        .result-box {
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-box.show { display: block; }
+
+        .result-box.yes {
+            background: #D4EDDA;
+            border: 2px solid var(--success);
+        }
+
+        .result-box.no {
+            background: #F8D7DA;
+            border: 2px solid var(--danger);
+        }
+
+        .result-box.maybe {
+            background: #FFF3CD;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .result-box h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-box.yes h3 { color: var(--success); }
+        .result-box.no h3 { color: var(--danger); }
+        .result-box.maybe h3 { color: #856404; }
+
+        .result-box p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .result-box ul {
+            margin-top: 12px;
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Tips Section */
+        .tips-section {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .tips-section h4 {
+            font-family: 'Fredoka', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .tips-section ul {
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>🤔 Pricing Decisions</h1>
+                <p>Get answers to common pricing questions!</p>
+            </div>
+        </div>
+
+        <!-- Decision Menu -->
+        <div class="decision-grid" id="decisionMenu">
+            <div class="decision-card" onclick="showDecision('raise')">
+                <h3>📈 Should I Raise My Price?</h3>
+                <p>Find out if it's time to charge more for your products.</p>
+            </div>
+
+            <div class="decision-card" onclick="showDecision('discount')">
+                <h3>🏷️ Should I Offer a Discount?</h3>
+                <p>Learn when discounts help and when they hurt your business.</p>
+            </div>
+
+            <div class="decision-card" onclick="showDecision('bundle')">
+                <h3>📦 Should I Bundle Products?</h3>
+                <p>Discover if selling combos could boost your sales.</p>
+            </div>
+
+            <div class="decision-card" onclick="showDecision('competitor')">
+                <h3>🏃 Competitor Is Cheaper - What Do I Do?</h3>
+                <p>Don't panic! Here's how to handle competition.</p>
+            </div>
+
+            <div class="decision-card" onclick="showDecision('lower')">
+                <h3>📉 Should I Lower My Price?</h3>
+                <p>Sometimes lower isn't better. Find out when it makes sense.</p>
+            </div>
+        </div>
+
+        <!-- Decision: Raise Price -->
+        <div class="decision-detail" id="detail-raise">
+            <div class="back-link" onclick="backToMenu()">← Back to all decisions</div>
+            
+            <div class="detail-card">
+                <h2>📈 Should I Raise My Price?</h2>
+
+                <div class="question-box" id="raise-q1">
+                    <h4>Are you selling everything you make?</h4>
+                    <div class="answer-btns">
+                        <button class="answer-btn" onclick="raiseAnswer(1, 'yes')">Yes, always!</button>
+                        <button class="answer-btn" onclick="raiseAnswer(1, 'sometimes')">Sometimes</button>
+                        <button class="answer-btn" onclick="raiseAnswer(1, 'no')">No, I have leftovers</button>
+                    </div>
+                </div>
+
+                <div class="question-box" id="raise-q2" style="display: none;">
+                    <h4>Do customers ever say "That's a great deal!"?</h4>
+                    <div class="answer-btns">
+                        <button class="answer-btn" onclick="raiseAnswer(2, 'yes')">Yes, often!</button>
+                        <button class="answer-btn" onclick="raiseAnswer(2, 'sometimes')">Sometimes</button>
+                        <button class="answer-btn" onclick="raiseAnswer(2, 'no')">No, never</button>
+                    </div>
+                </div>
+
+                <div class="question-box" id="raise-q3" style="display: none;">
+                    <h4>Have your supply costs gone up recently?</h4>
+                    <div class="answer-btns">
+                        <button class="answer-btn" onclick="raiseAnswer(3, 'yes')">Yes</button>
+                        <button class="answer-btn" onclick="raiseAnswer(3, 'no')">No</button>
+                    </div>
+                </div>
+
+                <div class="result-box yes" id="raise-result-yes">
+                    <h3>✅ Yes, Raise Your Price!</h3>
+                    <p>Based on your answers, you have room to increase prices. Here's how:</p>
+                    <ul>
+                        <li>Try a 10-20% increase first</li>
+                        <li>Improve packaging when you raise prices</li>
+                        <li>Announce it positively: "New and improved!"</li>
+                        <li>Watch if sales stay steady - if yes, you made the right call!</li>
+                    </ul>
+                </div>
+
+                <div class="result-box maybe" id="raise-result-maybe">
+                    <h3>🤔 Maybe - Test It First</h3>
+                    <p>You might be able to raise prices, but test carefully:</p>
+                    <ul>
+                        <li>Try raising on just ONE product first</li>
+                        <li>See how customers react for a few weeks</li>
+                        <li>If sales stay same, consider raising others</li>
+                    </ul>
+                </div>
+
+                <div class="result-box no" id="raise-result-no">
+                    <h3>⚠️ Probably Not Right Now</h3>
+                    <p>Your prices seem appropriate for now. Focus on:</p>
+                    <ul>
+                        <li>Selling more volume instead</li>
+                        <li>Finding ways to reduce your costs</li>
+                        <li>Adding value to justify higher prices later</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h4>💡 General Price Raising Tips</h4>
+                    <ul>
+                        <li>It's easier to raise prices on NEW customers</li>
+                        <li>Give loyal customers a heads-up</li>
+                        <li>Add something new when you raise (better packaging, extra item)</li>
+                        <li>Don't apologize - be confident!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision: Discount -->
+        <div class="decision-detail" id="detail-discount">
+            <div class="back-link" onclick="backToMenu()">← Back to all decisions</div>
+            
+            <div class="detail-card">
+                <h2>🏷️ Should I Offer a Discount?</h2>
+
+                <div class="question-box">
+                    <h4>Why do you want to offer a discount?</h4>
+                    <div class="answer-btns">
+                        <button class="answer-btn" onclick="showDiscountResult('slow')">Slow sales</button>
+                        <button class="answer-btn" onclick="showDiscountResult('leftover')">Clear old stock</button>
+                        <button class="answer-btn" onclick="showDiscountResult('attract')">Attract customers</button>
+                        <button class="answer-btn" onclick="showDiscountResult('asked')">Customer asked</button>
+                    </div>
+                </div>
+
+                <div class="result-box maybe" id="discount-slow" style="display: none;">
+                    <h3>🤔 Discounts Rarely Fix Slow Sales</h3>
+                    <p>If people aren't buying, the problem usually isn't price. Try these first:</p>
+                    <ul>
+                        <li>Better marketing (tell more people!)</li>
+                        <li>Improve your product presentation</li>
+                        <li>Sell in different locations</li>
+                        <li>Make sure people know you exist!</li>
+                    </ul>
+                </div>
+
+                <div class="result-box yes" id="discount-leftover" style="display: none;">
+                    <h3>✅ Yes, Clear That Stock!</h3>
+                    <p>Discounting old or leftover inventory makes sense:</p>
+                    <ul>
+                        <li>Better to sell cheap than throw away</li>
+                        <li>Mark it clearly as "clearance" or "last chance"</li>
+                        <li>Don't discount new products at the same time</li>
+                    </ul>
+                </div>
+
+                <div class="result-box maybe" id="discount-attract" style="display: none;">
+                    <h3>🤔 Be Careful with "Loss Leaders"</h3>
+                    <p>Discounting to attract customers can work, but:</p>
+                    <ul>
+                        <li>Only if you have other things to upsell</li>
+                        <li>Make it a LIMITED time offer</li>
+                        <li>Don't train customers to always expect discounts</li>
+                    </ul>
+                </div>
+
+                <div class="result-box no" id="discount-asked" style="display: none;">
+                    <h3>⚠️ Don't Discount Just Because Asked</h3>
+                    <p>Standing firm on your prices shows confidence:</p>
+                    <ul>
+                        <li>Your prices are based on real costs</li>
+                        <li>You can offer value instead: "I can add a sample!"</li>
+                        <li>Or bundle: "If you buy 3, I'll make it $X"</li>
+                        <li>It's okay if they walk away - not everyone is your customer</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h4>💡 Smart Discounting Rules</h4>
+                    <ul>
+                        <li>Never discount more than 20% (protect your profit!)</li>
+                        <li>Make discounts rare and special</li>
+                        <li>Bundle instead of discount: "Buy 2 get 1 free"</li>
+                        <li>Calculate if you can still profit at discount price</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision: Bundle -->
+        <div class="decision-detail" id="detail-bundle">
+            <div class="back-link" onclick="backToMenu()">← Back to all decisions</div>
+            
+            <div class="detail-card">
+                <h2>📦 Should I Bundle Products?</h2>
+
+                <div class="result-box yes" style="display: block;">
+                    <h3>✅ Bundles Are Usually Great!</h3>
+                    <p>Bundling is one of the best pricing strategies. Here's why it works:</p>
+                    <ul>
+                        <li>Customers feel like they're getting a deal</li>
+                        <li>You sell more per transaction</li>
+                        <li>Great for gift-giving occasions</li>
+                        <li>Helps you use up slower-selling items</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h4>💡 Bundle Ideas</h4>
+                    <ul>
+                        <li><strong>Quantity bundles:</strong> "3 for $15" (instead of $6 each)</li>
+                        <li><strong>Variety packs:</strong> "Try all 3 flavors for $20"</li>
+                        <li><strong>Gift sets:</strong> Multiple items in a nice box</li>
+                        <li><strong>Starter kits:</strong> Everything they need to get started</li>
+                        <li>Price bundles 10-15% less than items would cost separately</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision: Competitor -->
+        <div class="decision-detail" id="detail-competitor">
+            <div class="back-link" onclick="backToMenu()">← Back to all decisions</div>
+            
+            <div class="detail-card">
+                <h2>🏃 Competitor Is Cheaper!</h2>
+
+                <div class="result-box maybe" style="display: block;">
+                    <h3>😌 Don't Panic! Here's What to Do</h3>
+                    <p>Being more expensive than competitors isn't always bad:</p>
+                </div>
+
+                <div class="tips-section" style="margin-top: 20px; background: white; color: var(--text-dark);">
+                    <h4 style="color: var(--primary-teal);">🎯 Option 1: Differentiate</h4>
+                    <ul style="color: var(--text-dark); opacity: 1;">
+                        <li>What makes YOUR product special?</li>
+                        <li>Better ingredients? Handmade? Local?</li>
+                        <li>Unique flavors or designs?</li>
+                        <li>Better packaging or presentation?</li>
+                        <li><strong>Communicate this!</strong> People pay more for quality.</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section" style="background: white; color: var(--text-dark);">
+                    <h4 style="color: var(--primary-teal);">🎯 Option 2: Find Your Customers</h4>
+                    <ul style="color: var(--text-dark); opacity: 1;">
+                        <li>Not everyone shops on price</li>
+                        <li>Sell where quality matters more</li>
+                        <li>Target customers who appreciate handmade</li>
+                        <li>Let cheap competitors have the bargain hunters</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section" style="background: white; color: var(--text-dark);">
+                    <h4 style="color: var(--primary-teal);">🎯 Option 3: Add Value</h4>
+                    <ul style="color: var(--text-dark); opacity: 1;">
+                        <li>Include something extra they don't</li>
+                        <li>Better customer service</li>
+                        <li>Custom options or personalization</li>
+                        <li>Loyalty rewards for repeat customers</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h4>⚠️ What NOT To Do</h4>
+                    <ul>
+                        <li>Don't just lower your prices to match</li>
+                        <li>Don't badmouth the competition</li>
+                        <li>Don't panic and give up!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision: Lower Price -->
+        <div class="decision-detail" id="detail-lower">
+            <div class="back-link" onclick="backToMenu()">← Back to all decisions</div>
+            
+            <div class="detail-card">
+                <h2>📉 Should I Lower My Price?</h2>
+
+                <div class="question-box">
+                    <h4>Why are you thinking about lowering your price?</h4>
+                    <div class="answer-btns">
+                        <button class="answer-btn" onclick="showLowerResult('not-selling')">Not selling enough</button>
+                        <button class="answer-btn" onclick="showLowerResult('feedback')">People say too expensive</button>
+                        <button class="answer-btn" onclick="showLowerResult('competition')">Competition is cheaper</button>
+                        <button class="answer-btn" onclick="showLowerResult('costs')">My costs went down</button>
+                    </div>
+                </div>
+
+                <div class="result-box no" id="lower-not-selling" style="display: none;">
+                    <h3>⚠️ Price Probably Isn't the Problem</h3>
+                    <p>Not selling usually means a marketing or location problem, not pricing:</p>
+                    <ul>
+                        <li>Are enough people seeing your product?</li>
+                        <li>Is your presentation appealing?</li>
+                        <li>Are you selling in the right place?</li>
+                        <li>Try fixing these BEFORE lowering price</li>
+                    </ul>
+                </div>
+
+                <div class="result-box maybe" id="lower-feedback" style="display: none;">
+                    <h3>🤔 Consider the Source</h3>
+                    <p>Before lowering, ask yourself:</p>
+                    <ul>
+                        <li>Are MANY people saying this, or just a few?</li>
+                        <li>Are these your target customers?</li>
+                        <li>Can you add value instead of lowering?</li>
+                        <li>Is your price based on real costs?</li>
+                    </ul>
+                </div>
+
+                <div class="result-box no" id="lower-competition" style="display: none;">
+                    <h3>⚠️ Don't Race to the Bottom</h3>
+                    <p>Competing on price is a losing game:</p>
+                    <ul>
+                        <li>Someone can always go cheaper</li>
+                        <li>Focus on being BETTER, not cheaper</li>
+                        <li>Find customers who value quality</li>
+                        <li>Differentiate your product instead</li>
+                    </ul>
+                </div>
+
+                <div class="result-box yes" id="lower-costs" style="display: none;">
+                    <h3>✅ This Is the Right Reason!</h3>
+                    <p>If your costs went down, you could:</p>
+                    <ul>
+                        <li>Keep prices same and enjoy more profit</li>
+                        <li>Lower slightly to attract more customers</li>
+                        <li>Use savings to improve packaging/quality</li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h4>💡 Before Lowering Any Price</h4>
+                    <ul>
+                        <li>Calculate if you'll still profit</li>
+                        <li>Remember: selling MORE at lower profit might mean more work for less money</li>
+                        <li>Consider: can you add a smaller/cheaper option instead?</li>
+                        <li>Once you lower, it's hard to raise again</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let raiseScore = 0;
+
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function showDecision(id) {
+            document.getElementById('decisionMenu').style.display = 'none';
+            document.getElementById('detail-' + id).classList.add('show');
+            window.scrollTo({ top: 0 });
+        }
+
+        function backToMenu() {
+            document.querySelectorAll('.decision-detail').forEach(d => d.classList.remove('show'));
+            document.getElementById('decisionMenu').style.display = 'grid';
+            resetRaise();
+        }
+
+        function raiseAnswer(q, answer) {
+            if (q === 1) {
+                if (answer === 'yes') raiseScore += 2;
+                else if (answer === 'sometimes') raiseScore += 1;
+                document.getElementById('raise-q1').style.display = 'none';
+                document.getElementById('raise-q2').style.display = 'block';
+            } else if (q === 2) {
+                if (answer === 'yes') raiseScore += 2;
+                else if (answer === 'sometimes') raiseScore += 1;
+                document.getElementById('raise-q2').style.display = 'none';
+                document.getElementById('raise-q3').style.display = 'block';
+            } else if (q === 3) {
+                if (answer === 'yes') raiseScore += 1;
+                document.getElementById('raise-q3').style.display = 'none';
+                
+                if (raiseScore >= 4) {
+                    document.getElementById('raise-result-yes').classList.add('show');
+                } else if (raiseScore >= 2) {
+                    document.getElementById('raise-result-maybe').classList.add('show');
+                } else {
+                    document.getElementById('raise-result-no').classList.add('show');
+                }
+            }
+        }
+
+        function resetRaise() {
+            raiseScore = 0;
+            document.getElementById('raise-q1').style.display = 'block';
+            document.getElementById('raise-q2').style.display = 'none';
+            document.getElementById('raise-q3').style.display = 'none';
+            document.querySelectorAll('#detail-raise .result-box').forEach(r => r.classList.remove('show'));
+        }
+
+        function showDiscountResult(reason) {
+            document.querySelectorAll('#detail-discount .result-box').forEach(r => r.style.display = 'none');
+            document.getElementById('discount-' + reason).style.display = 'block';
+        }
+
+        function showLowerResult(reason) {
+            document.querySelectorAll('#detail-lower .result-box').forEach(r => r.style.display = 'none');
+            document.getElementById('lower-' + reason).style.display = 'block';
+        }
+    </script>
+</body>
+</html>

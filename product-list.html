@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Product List | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Business Name */
+        .business-name-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .business-name-card label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .business-name-card input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary-teal);
+        }
+
+        .business-name-card input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        /* Summary */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-card.highlight {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+        }
+
+        .summary-card .value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+
+        .summary-card.highlight .value {
+            color: white;
+        }
+
+        .summary-card .label {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .summary-card.highlight .label {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Products List */
+        .products-section {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .products-section h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: var(--cream);
+            border-radius: 14px;
+            margin-bottom: 12px;
+        }
+
+        .product-item .emoji {
+            font-size: 28px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info .name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--primary-teal);
+        }
+
+        .product-info .details {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .product-price {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: var(--soft-gold);
+            color: var(--primary-teal);
+        }
+
+        .btn-delete {
+            background: #FFE5E5;
+            color: #E74C3C;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state .emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            margin-bottom: 16px;
+        }
+
+        /* Add Product Form */
+        .add-form {
+            background: var(--soft-gold);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .add-form.show {
+            display: block;
+        }
+
+        .add-form h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-teal);
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            padding: 10px 12px;
+            border: 2px solid #E8E8E8;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn-primary:hover { background: #D49A38; }
+
+        .btn-secondary {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary-teal);
+            color: var(--primary-teal);
+        }
+
+        .btn-full { width: 100%; }
+
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .print-header {
+                text-align: center;
+                padding: 30px 0;
+                border-bottom: 3px solid var(--primary-teal);
+                margin-bottom: 30px;
+            }
+
+            .print-header h1 {
+                font-family: 'Fredoka', sans-serif;
+                font-size: 32px;
+                color: var(--primary-teal);
+            }
+
+            .print-header .tagline {
+                color: var(--primary-gold);
+                font-size: 16px;
+            }
+
+            .products-section {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .product-item {
+                border: 1px solid #E8E8E8;
+                page-break-inside: avoid;
+            }
+
+            .print-footer {
+                text-align: center;
+                margin-top: 40px;
+                padding-top: 20px;
+                border-top: 2px solid #E8E8E8;
+                font-size: 12px;
+                color: var(--text-light);
+            }
+        }
+
+        /* Print-only elements */
+        .print-only {
+            display: none;
+        }
+
+        @media print {
+            .print-only { display: block; }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        @media (max-width: 500px) {
+            .summary-row { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header no-print">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>📋 My Product List</h1>
+                <p>Save your products & create price sheets</p>
+            </div>
+        </div>
+
+        <!-- Print Header -->
+        <div class="print-header print-only">
+            <h1 id="printBusinessName">My Business</h1>
+            <p class="tagline">Price List</p>
+        </div>
+
+        <!-- Business Name -->
+        <div class="business-name-card no-print">
+            <label>Your Business Name</label>
+            <input type="text" id="businessName" placeholder="My Awesome Business" onchange="saveBusinessName()">
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-row no-print">
+            <div class="summary-card">
+                <div class="value" id="totalProducts">0</div>
+                <div class="label">Products</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" id="avgPrice">$0</div>
+                <div class="label">Avg Price</div>
+            </div>
+            <div class="summary-card highlight">
+                <div class="value" id="totalProfit">$0</div>
+                <div class="label">Total Potential Profit</div>
+            </div>
+        </div>
+
+        <!-- Products List -->
+        <div class="products-section">
+            <h2 class="no-print">📦 My Products</h2>
+            
+            <div id="productsList">
+                <div class="empty-state" id="emptyState">
+                    <div class="emoji">📦</div>
+                    <p>No products yet! Add your first product below.</p>
+                </div>
+            </div>
+
+            <!-- Add Product Button -->
+            <button class="btn btn-primary btn-full no-print" onclick="showAddForm()" id="addBtn">
+                ➕ Add Product
+            </button>
+
+            <!-- Add/Edit Form -->
+            <div class="add-form no-print" id="addForm">
+                <h3 id="formTitle">➕ Add New Product</h3>
+                <input type="hidden" id="editIndex" value="-1">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="newName" placeholder="e.g., PB Dog Treats">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="newPrice" placeholder="e.g., $7.00">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cost (optional)</label>
+                        <input type="text" id="newCost" placeholder="e.g., $3.50">
+                    </div>
+                    <div class="form-group">
+                        <label>Description (optional)</label>
+                        <input type="text" id="newDesc" placeholder="e.g., 6-pack, peanut butter">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-outline" onclick="hideAddForm()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveProduct()" style="flex: 1;">💾 Save Product</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="no-print" style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="printPriceList()" style="flex: 1;">🖨️ Print Price List</button>
+            <button class="btn btn-outline" onclick="clearAll()">🗑️ Clear All</button>
+        </div>
+
+        <!-- Print Footer -->
+        <div class="print-footer print-only">
+            <p>Thank you for your business! 💛</p>
+            <p>Young Empowered Entrepreneur</p>
+        </div>
+
+        <footer class="no-print">
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let products = [];
+
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+            loadProducts();
+            loadBusinessName();
+        });
+
+        function loadProducts() {
+            const saved = localStorage.getItem('yeeProducts');
+            if (saved) {
+                products = JSON.parse(saved);
+            }
+            renderProducts();
+            updateSummary();
+        }
+
+        function saveProducts() {
+            localStorage.setItem('yeeProducts', JSON.stringify(products));
+        }
+
+        function loadBusinessName() {
+            const name = localStorage.getItem('yeeBusinessName') || '';
+            document.getElementById('businessName').value = name;
+            document.getElementById('printBusinessName').textContent = name || 'My Business';
+        }
+
+        function saveBusinessName() {
+            const name = document.getElementById('businessName').value;
+            localStorage.setItem('yeeBusinessName', name);
+            document.getElementById('printBusinessName').textContent = name || 'My Business';
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('productsList');
+            const empty = document.getElementById('emptyState');
+
+            if (products.length === 0) {
+                list.innerHTML = '';
+                list.appendChild(empty);
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+
+            let html = '';
+            products.forEach((product, index) => {
+                const emoji = getProductEmoji(product.name);
+                const price = formatPrice(product.price);
+                const details = product.description || '';
+                
+                html += `
+                    <div class="product-item">
+                        <div class="emoji">${emoji}</div>
+                        <div class="product-info">
+                            <div class="name">${product.name}</div>
+                            <div class="details">${details}</div>
+                        </div>
+                        <div class="product-price">${price}</div>
+                        <div class="product-actions no-print">
+                            <button class="btn-icon btn-edit" onclick="editProduct(${index})">✏️</button>
+                            <button class="btn-icon btn-delete" onclick="deleteProduct(${index})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function getProductEmoji(name) {
+            const lower = name.toLowerCase();
+            if (lower.includes('dog') || lower.includes('pet') || lower.includes('treat')) return '🐕';
+            if (lower.includes('cookie') || lower.includes('bake')) return '🍪';
+            if (lower.includes('bracelet') || lower.includes('jewelry')) return '💝';
+            if (lower.includes('plant') || lower.includes('succulent')) return '🌱';
+            if (lower.includes('soap') || lower.includes('bath')) return '🧼';
+            if (lower.includes('candle')) return '🕯️';
+            if (lower.includes('art') || lower.includes('paint')) return '🎨';
+            if (lower.includes('card')) return '💌';
+            return '📦';
+        }
+
+        function formatPrice(price) {
+            if (typeof price === 'string' && price.startsWith('$')) return price;
+            const num = parseFloat(price) || 0;
+            return '$' + num.toFixed(2);
+        }
+
+        function parsePrice(price) {
+            if (typeof price === 'string') {
+                return parseFloat(price.replace('$', '')) || 0;
+            }
+            return parseFloat(price) || 0;
+        }
+
+        function updateSummary() {
+            const count = products.length;
+            let totalPrice = 0;
+            let totalProfit = 0;
+
+            products.forEach(p => {
+                const price = parsePrice(p.price);
+                const cost = parsePrice(p.cost);
+                totalPrice += price;
+                totalProfit += (price - cost);
+            });
+
+            const avgPrice = count > 0 ? totalPrice / count : 0;
+
+            document.getElementById('totalProducts').textContent = count;
+            document.getElementById('avgPrice').textContent = '$' + avgPrice.toFixed(2);
+            document.getElementById('totalProfit').textContent = '$' + totalProfit.toFixed(2);
+        }
+
+        function showAddForm() {
+            document.getElementById('addForm').classList.add('show');
+            document.getElementById('addBtn').style.display = 'none';
+            document.getElementById('formTitle').textContent = '➕ Add New Product';
+            document.getElementById('editIndex').value = -1;
+            clearForm();
+        }
+
+        function hideAddForm() {
+            document.getElementById('addForm').classList.remove('show');
+            document.getElementById('addBtn').style.display = 'flex';
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('newName').value = '';
+            document.getElementById('newPrice').value = '';
+            document.getElementById('newCost').value = '';
+            document.getElementById('newDesc').value = '';
+        }
+
+        function saveProduct() {
+            const name = document.getElementById('newName').value.trim();
+            const price = document.getElementById('newPrice').value.trim();
+            const cost = document.getElementById('newCost').value.trim();
+            const desc = document.getElementById('newDesc').value.trim();
+            const editIndex = parseInt(document.getElementById('editIndex').value);
+
+            if (!name || !price) {
+                alert('Please enter at least a product name and price!');
+                return;
+            }
+
+            const product = {
+                name,
+                price: price.startsWith('$') ? price : '$' + price,
+                cost: cost ? (cost.startsWith('$') ? cost : '$' + cost) : '$0.00',
+                description: desc,
+                savedAt: new Date().toISOString()
+            };
+
+            if (editIndex >= 0) {
+                products[editIndex] = product;
+            } else {
+                products.push(product);
+            }
+
+            saveProducts();
+            renderProducts();
+            updateSummary();
+            hideAddForm();
+        }
+
+        function editProduct(index) {
+            const product = products[index];
+            document.getElementById('newName').value = product.name;
+            document.getElementById('newPrice').value = product.price;
+            document.getElementById('newCost').value = product.cost || '';
+            document.getElementById('newDesc').value = product.description || '';
+            document.getElementById('editIndex').value = index;
+            document.getElementById('formTitle').textContent = '✏️ Edit Product';
+            document.getElementById('addForm').classList.add('show');
+            document.getElementById('addBtn').style.display = 'none';
+        }
+
+        function deleteProduct(index) {
+            if (confirm('Delete this product?')) {
+                products.splice(index, 1);
+                saveProducts();
+                renderProducts();
+                updateSummary();
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Delete ALL products? This cannot be undone.')) {
+                products = [];
+                saveProducts();
+                renderProducts();
+                updateSummary();
+            }
+        }
+
+        function printPriceList() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

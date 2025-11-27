@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growth Planner | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Intro */
+        .intro-card {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .intro-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .intro-card p {
+            opacity: 0.9;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Growth Stage Selector */
+        .stage-section {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .stage-section h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .stage-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stage-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            background: var(--cream);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stage-option:hover {
+            border-color: var(--light-teal);
+        }
+
+        .stage-option.selected {
+            border-color: var(--primary-gold);
+            background: var(--soft-gold);
+        }
+
+        .stage-icon {
+            font-size: 32px;
+        }
+
+        .stage-info h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-teal);
+        }
+
+        .stage-info p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Growth Plan */
+        .plan-section {
+            display: none;
+        }
+
+        .plan-section.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .plan-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Steps */
+        .growth-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .growth-step {
+            display: flex;
+            gap: 16px;
+            padding: 20px;
+            background: var(--cream);
+            border-radius: 14px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gold);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-teal);
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .step-content ul {
+            margin-top: 10px;
+            padding-left: 18px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Warning/Tip Boxes */
+        .warning-box {
+            background: #FFF3CD;
+            border: 2px solid var(--primary-gold);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+        .warning-box h4 {
+            font-size: 14px;
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .success-box {
+            background: #D4EDDA;
+            border: 2px solid var(--success);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+        .success-box h4 {
+            font-size: 14px;
+            color: #155724;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .success-box p, .success-box ul {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .success-box ul {
+            padding-left: 18px;
+            margin-top: 8px;
+        }
+
+        /* Checklist */
+        .growth-checklist {
+            margin-top: 20px;
+        }
+
+        .growth-checklist h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-teal);
+            margin-bottom: 14px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border: 2px solid #E8E8E8;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--light-teal);
+        }
+
+        .checklist-item.checked {
+            border-color: var(--success);
+            background: #F0FFF0;
+        }
+
+        .checklist-item .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #DDD;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .checklist-item.checked .checkbox {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: '✓';
+        }
+
+        .checklist-item span {
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>📈 Growth Planner</h1>
+                <p>Ready to take your business to the next level?</p>
+            </div>
+        </div>
+
+        <div class="intro-card">
+            <h2>🚀 Level Up Your Business!</h2>
+            <p>Growth is exciting, but it's important to grow SMART. Let's figure out the right next steps for where you are right now.</p>
+        </div>
+
+        <!-- Stage Selection -->
+        <div class="stage-section" id="stageSection">
+            <h3>Where are you in your business journey?</h3>
+            
+            <div class="stage-options">
+                <div class="stage-option" onclick="selectStage('starter')">
+                    <span class="stage-icon">🌱</span>
+                    <div class="stage-info">
+                        <h4>Just Starting</h4>
+                        <p>Made a few sales, still figuring things out</p>
+                    </div>
+                </div>
+
+                <div class="stage-option" onclick="selectStage('growing')">
+                    <span class="stage-icon">🌿</span>
+                    <div class="stage-info">
+                        <h4>Growing Steady</h4>
+                        <p>Regular sales, want to do more</p>
+                    </div>
+                </div>
+
+                <div class="stage-option" onclick="selectStage('scaling')">
+                    <span class="stage-icon">🌳</span>
+                    <div class="stage-info">
+                        <h4>Ready to Scale</h4>
+                        <p>Busy! Need to work smarter, not harder</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan: Just Starting -->
+        <div class="plan-section" id="plan-starter">
+            <div class="plan-card">
+                <h2>🌱 Your Growth Plan: Foundation First</h2>
+                <p style="color: var(--text-light); margin-bottom: 20px;">Before you grow, let's make sure your foundation is solid!</p>
+
+                <div class="growth-steps">
+                    <div class="growth-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Perfect Your Product</h4>
+                            <p>Make sure your product is consistently great before you try to sell more of it.</p>
+                            <ul>
+                                <li>Get feedback from 5-10 customers</li>
+                                <li>Make each item the same quality</li>
+                                <li>Write down your process so you don't forget</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Know Your Numbers</h4>
+                            <p>You can't grow if you don't know if you're making money!</p>
+                            <ul>
+                                <li>Track every cost (use our calculator!)</li>
+                                <li>Make sure your prices give you profit</li>
+                                <li>Record every sale</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Build Your Customer Base</h4>
+                            <p>Happy customers come back AND tell friends!</p>
+                            <ul>
+                                <li>Ask customers to tell others about you</li>
+                                <li>Start collecting customer contact info</li>
+                                <li>Thank every customer personally</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Common Mistake to Avoid</h4>
+                    <p>Don't try to sell everywhere at once! Master one selling location before adding another.</p>
+                </div>
+
+                <div class="growth-checklist">
+                    <h4>✅ Before You Move to the Next Level:</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>I consistently make a product I'm proud of</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>I know exactly how much profit I make per item</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>I have at least 10 happy customers</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>I've sold at the same place multiple times successfully</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan: Growing Steady -->
+        <div class="plan-section" id="plan-growing">
+            <div class="plan-card">
+                <h2>🌿 Your Growth Plan: Expand Smart</h2>
+                <p style="color: var(--text-light); margin-bottom: 20px;">You've got the basics down. Time to expand carefully!</p>
+
+                <div class="growth-steps">
+                    <div class="growth-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Add a New Product</h4>
+                            <p>Expand your line to give customers more options.</p>
+                            <ul>
+                                <li>Add ONE new product that complements your current one</li>
+                                <li>Use the same ingredients/supplies if possible (saves money!)</li>
+                                <li>Test with existing customers first</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Find a New Sales Channel</h4>
+                            <p>Sell in one more place to reach new customers.</p>
+                            <ul>
+                                <li>If selling to neighbors → try a farmers market</li>
+                                <li>If at markets → try local stores (consignment)</li>
+                                <li>Try online with parent help (Instagram, Etsy)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Create Repeat Customers</h4>
+                            <p>It's easier to sell to someone who already bought from you!</p>
+                            <ul>
+                                <li>Start a simple loyalty program ("Buy 5, get 1 free")</li>
+                                <li>Collect phone numbers/emails to let them know about new products</li>
+                                <li>Remember regulars and their preferences</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h4>💡 Growth Tip</h4>
+                    <p>Raise your prices by 10-15% before expanding. It's easier than you think, and it gives you more profit to invest in growth!</p>
+                </div>
+
+                <div class="growth-checklist">
+                    <h4>✅ Growth Goals for This Stage:</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>Launch 1 new product successfully</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>Add 1 new place to sell</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>Get 5 repeat customers</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <div class="checkbox"></div>
+                        <span>Raise prices at least once</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan: Ready to Scale -->
+        <div class="plan-section" id="plan-scaling">
+            <div class="plan-card">
+                <h2>🌳 Your Growth Plan: Scale Up!</h2>
+                <p style="color: var(--text-light); margin-bottom: 20px;">You're crushing it! Here's how to grow without burning out.</p>
+
+                <div class="growth-steps">
+                    <div class="growth-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Work Smarter, Not Harder</h4>
+                            <p>Find ways to make more without spending more time.</p>
+                            <ul>
+                                <li>Buy supplies in bulk for discounts</li>
+                                <li>Make bigger batches at once</li>
+                                <li>Create systems (same process every time)</li>
+                                <li>Raise prices if demand is high</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Consider Help</h4>
+                            <p>Maybe it's time to get some assistance!</p>
+                            <ul>
+                                <li>Can a sibling help with packaging?</li>
+                                <li>Can parents help at busy markets?</li>
+                                <li>Can you teach a friend your process?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Think About Wholesale</h4>
+                            <p>Selling to stores means bigger orders!</p>
+                            <ul>
+                                <li>Stores buy at half your retail price</li>
+                                <li>You sell more at once (less work per sale)</li>
+                                <li>Start with ONE local store</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="growth-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Plan for Busy Seasons</h4>
+                            <p>Prepare ahead for your peak selling times.</p>
+                            <ul>
+                                <li>Stock up on supplies before holidays</li>
+                                <li>Start making inventory early</li>
+                                <li>Maybe skip slow seasons to rest!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Don't Forget</h4>
+                    <p>School still comes first! It's okay to say no to orders or take breaks. A sustainable business is better than a burned-out entrepreneur.</p>
+                </div>
+
+                <div class="success-box">
+                    <h4>🎉 Amazing Achievement!</h4>
+                    <p>If you've made it to this stage, you've learned more about business than most adults ever do! Skills you're building:</p>
+                    <ul>
+                        <li>Financial literacy</li>
+                        <li>Customer service</li>
+                        <li>Marketing</li>
+                        <li>Time management</li>
+                        <li>Problem solving</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function selectStage(stage) {
+            // Clear selections
+            document.querySelectorAll('.stage-option').forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+
+            // Hide all plans
+            document.querySelectorAll('.plan-section').forEach(plan => plan.classList.remove('show'));
+
+            // Show selected plan
+            document.getElementById('plan-' + stage).classList.add('show');
+
+            // Scroll to plan
+            setTimeout(() => {
+                document.getElementById('plan-' + stage).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function toggleCheck(item) {
+            item.classList.toggle('checked');
+        }
+    </script>
+</body>
+</html>

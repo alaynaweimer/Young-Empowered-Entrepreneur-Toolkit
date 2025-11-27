@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Calculator - Quick Mode | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --white: #FFFFFF;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Settings Row */
+        .settings-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .setting-group {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .setting-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .setting-group input, .setting-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #E8E8E8;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .setting-group input:focus, .setting-group select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        /* Quick Load */
+        .quick-load {
+            background: white;
+            border: 2px dashed var(--primary-teal);
+            border-radius: 12px;
+            padding: 14px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            color: var(--primary-teal);
+        }
+
+        .quick-load:hover {
+            background: var(--soft-gold);
+            border-style: solid;
+        }
+
+        /* Products Table Card */
+        .products-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .products-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+        }
+
+        /* Table */
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .product-table th {
+            background: var(--primary-teal);
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .product-table th:first-child { border-radius: 10px 0 0 0; }
+        .product-table th:last-child { border-radius: 0 10px 0 0; }
+
+        .product-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #E8E8E8;
+            vertical-align: middle;
+        }
+
+        .product-table tr:hover { background: #FAFAFA; }
+
+        .product-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #E8E8E8;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .product-table input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .product-table input.name-input { min-width: 120px; }
+        .product-table input.small-input { min-width: 50px; max-width: 65px; }
+        .product-table input.money-input { min-width: 55px; max-width: 70px; }
+
+        .calc-cell {
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .price-cell {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        .profit-cell { color: var(--success); }
+        .loss-cell { color: var(--danger); }
+
+        .btn-delete {
+            background: #FFE5E5;
+            color: var(--danger);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-delete:hover { background: #FFCCCC; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary { background: var(--primary-gold); color: white; }
+        .btn-primary:hover { background: #D49A38; }
+        .btn-secondary { background: var(--primary-teal); color: white; }
+        .btn-outline { background: white; border: 2px solid var(--primary-teal); color: var(--primary-teal); }
+
+        .add-row { margin-top: 16px; }
+
+        /* Summary Cards */
+        .summary-section {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .summary-card.highlight {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+        }
+
+        .summary-card .value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+
+        .summary-card.highlight .value { color: white; }
+
+        .summary-card .label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .summary-card.highlight .label { color: rgba(255,255,255,0.8); }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Empty State */
+        .empty-row td {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        /* Print */
+        @media print {
+            .no-print { display: none !important; }
+            .products-card { box-shadow: none; border: 1px solid #ddd; }
+            .summary-card { box-shadow: none; border: 1px solid #ddd; }
+            .summary-card.highlight { background: #f5f5f5 !important; color: black !important; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-table { font-size: 11px; }
+            .product-table th, .product-table td { padding: 8px 5px; }
+            .price-cell { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>⚡ Pricing Calculator - Quick Mode</h1>
+                <p>Enter multiple products fast, see all prices at once!</p>
+            </div>
+        </div>
+
+        <!-- Quick Load -->
+        <div class="quick-load no-print" onclick="loadExample()">
+            🐕 Load Example: Dog Treats Product Line (3 flavors)
+        </div>
+
+        <!-- Global Settings -->
+        <div class="settings-card no-print" style="margin-top: 16px;">
+            <div class="setting-group">
+                <label>Your Hourly Rate ($)</label>
+                <input type="number" id="globalHourlyRate" value="12" step="0.5" min="0" onchange="recalculateAll()">
+            </div>
+            <div class="setting-group">
+                <label>Default Markup</label>
+                <select id="globalMarkup" onchange="recalculateAll()">
+                    <option value="1.5">1.5x (50%)</option>
+                    <option value="2" selected>2x (100%) - Recommended</option>
+                    <option value="2.5">2.5x (150%)</option>
+                    <option value="3">3x (200%)</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>Business Name (for printing)</label>
+                <input type="text" id="businessName" placeholder="My Awesome Business">
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="products-card">
+            <div class="products-header">
+                <h2>📦 My Products</h2>
+            </div>
+
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Supply $</th>
+                        <th>Items/Batch</th>
+                        <th>Items/Pkg</th>
+                        <th>Minutes</th>
+                        <th>Pkg Cost</th>
+                        <th># Pkgs</th>
+                        <th>Cost/Pkg</th>
+                        <th>💰 Price</th>
+                        <th>Profit</th>
+                        <th class="no-print"></th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody"></tbody>
+            </table>
+
+            <div class="add-row no-print">
+                <button class="btn btn-primary" onclick="addProduct()">➕ Add Product</button>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-section">
+            <div class="summary-card">
+                <div class="value" id="summaryProducts">0</div>
+                <div class="label">Products</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" id="summaryInvestment">$0</div>
+                <div class="label">Supply Investment</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" id="summaryPackages">0</div>
+                <div class="label">Total Packages</div>
+            </div>
+            <div class="summary-card highlight">
+                <div class="value" id="summaryRevenue">$0</div>
+                <div class="label">Potential Revenue</div>
+            </div>
+            <div class="summary-card highlight">
+                <div class="value" id="summaryProfit">$0</div>
+                <div class="label">Potential Profit</div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons no-print">
+            <button class="btn btn-outline" onclick="clearAll()">🗑️ Clear All</button>
+            <button class="btn btn-secondary" onclick="saveAllProducts()">💾 Save All</button>
+            <button class="btn btn-primary" onclick="window.print()">🖨️ Print Price Sheet</button>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let products = [];
+        let productIdCounter = 1;
+
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+                return;
+            }
+            addProduct();
+        });
+
+        function addProduct(data = {}) {
+            const id = productIdCounter++;
+            const product = {
+                id,
+                name: data.name || '',
+                supplyCost: data.supplyCost || '',
+                itemsPerBatch: data.itemsPerBatch || '',
+                itemsPerPkg: data.itemsPerPkg || '',
+                minutes: data.minutes || '',
+                packagingCost: data.packagingCost || ''
+            };
+            products.push(product);
+            renderTable();
+            return id;
+        }
+
+        function removeProduct(id) {
+            products = products.filter(p => p.id !== id);
+            renderTable();
+        }
+
+        function updateProduct(id, field, value) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product[field] = value;
+                calculateProduct(id);
+                updateSummary();
+            }
+        }
+
+        function calculateProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const hourlyRate = parseFloat(document.getElementById('globalHourlyRate').value) || 0;
+            const markup = parseFloat(document.getElementById('globalMarkup').value) || 2;
+
+            const supplyCost = parseFloat(product.supplyCost) || 0;
+            const itemsPerBatch = parseInt(product.itemsPerBatch) || 0;
+            const itemsPerPkg = parseInt(product.itemsPerPkg) || 1;
+            const minutes = parseInt(product.minutes) || 0;
+            const packagingCost = parseFloat(product.packagingCost) || 0;
+
+            if (itemsPerBatch === 0 || itemsPerPkg === 0) {
+                product.numPackages = 0;
+                product.costPerPkg = 0;
+                product.price = 0;
+                product.profit = 0;
+            } else {
+                const numPackages = Math.floor(itemsPerBatch / itemsPerPkg);
+                const laborCost = (minutes / 60) * hourlyRate;
+                const laborPerPkg = numPackages > 0 ? laborCost / numPackages : 0;
+                const materialPerPkg = (supplyCost / itemsPerBatch) * itemsPerPkg;
+                const costPerPkg = materialPerPkg + laborPerPkg + packagingCost;
+                const price = costPerPkg * markup;
+                const profit = price - costPerPkg;
+
+                product.numPackages = numPackages;
+                product.costPerPkg = costPerPkg;
+                product.price = price;
+                product.profit = profit;
+            }
+
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            if (row) {
+                row.querySelector('.num-packages').textContent = product.numPackages || '-';
+                row.querySelector('.cost-per-pkg').textContent = product.costPerPkg ? '$' + product.costPerPkg.toFixed(2) : '-';
+                row.querySelector('.price-cell').textContent = product.price ? '$' + product.price.toFixed(2) : '-';
+                
+                const profitCell = row.querySelector('.profit-cell');
+                if (product.profit) {
+                    profitCell.textContent = '$' + product.profit.toFixed(2);
+                    profitCell.className = 'calc-cell profit-cell ' + (product.profit >= 0 ? '' : 'loss-cell');
+                } else {
+                    profitCell.textContent = '-';
+                }
+            }
+        }
+
+        function recalculateAll() {
+            products.forEach(p => calculateProduct(p.id));
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const validProducts = products.filter(p => p.price > 0);
+            
+            const totalProducts = validProducts.length;
+            const totalInvestment = products.reduce((sum, p) => sum + (parseFloat(p.supplyCost) || 0), 0);
+            const totalPackages = validProducts.reduce((sum, p) => sum + (p.numPackages || 0), 0);
+            const totalRevenue = validProducts.reduce((sum, p) => sum + ((p.price || 0) * (p.numPackages || 0)), 0);
+            const totalProfit = validProducts.reduce((sum, p) => sum + ((p.profit || 0) * (p.numPackages || 0)), 0);
+
+            document.getElementById('summaryProducts').textContent = totalProducts;
+            document.getElementById('summaryInvestment').textContent = '$' + totalInvestment.toFixed(2);
+            document.getElementById('summaryPackages').textContent = totalPackages;
+            document.getElementById('summaryRevenue').textContent = '$' + totalRevenue.toFixed(2);
+            document.getElementById('summaryProfit').textContent = '$' + totalProfit.toFixed(2);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('productTableBody');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = `
+                    <tr class="empty-row">
+                        <td colspan="11">
+                            <div style="font-size: 32px; margin-bottom: 8px;">📦</div>
+                            Click "Add Product" to get started!
+                        </td>
+                    </tr>
+                `;
+                updateSummary();
+                return;
+            }
+
+            let html = '';
+            products.forEach(p => {
+                html += `
+                    <tr data-id="${p.id}">
+                        <td><input type="text" class="name-input" value="${p.name}" placeholder="Product name" onchange="updateProduct(${p.id}, 'name', this.value)"></td>
+                        <td><input type="number" class="money-input" value="${p.supplyCost}" placeholder="$" step="0.01" min="0" onchange="updateProduct(${p.id}, 'supplyCost', this.value)"></td>
+                        <td><input type="number" class="small-input" value="${p.itemsPerBatch}" placeholder="#" min="1" onchange="updateProduct(${p.id}, 'itemsPerBatch', this.value)"></td>
+                        <td><input type="number" class="small-input" value="${p.itemsPerPkg}" placeholder="#" min="1" onchange="updateProduct(${p.id}, 'itemsPerPkg', this.value)"></td>
+                        <td><input type="number" class="small-input" value="${p.minutes}" placeholder="min" min="0" onchange="updateProduct(${p.id}, 'minutes', this.value)"></td>
+                        <td><input type="number" class="money-input" value="${p.packagingCost}" placeholder="$" step="0.01" min="0" onchange="updateProduct(${p.id}, 'packagingCost', this.value)"></td>
+                        <td class="calc-cell num-packages">-</td>
+                        <td class="calc-cell cost-per-pkg">-</td>
+                        <td class="calc-cell price-cell">-</td>
+                        <td class="calc-cell profit-cell">-</td>
+                        <td class="no-print"><button class="btn-delete" onclick="removeProduct(${p.id})">✕</button></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+
+            products.forEach(p => calculateProduct(p.id));
+            updateSummary();
+        }
+
+        function clearAll() {
+            if (products.length === 0 || confirm('Remove all products?')) {
+                products = [];
+                productIdCounter = 1;
+                renderTable();
+            }
+        }
+
+        function loadExample() {
+            products = [];
+            productIdCounter = 1;
+
+            addProduct({ name: 'PB Dog Treats (6-pack)', supplyCost: '5.50', itemsPerBatch: '48', itemsPerPkg: '6', minutes: '75', packagingCost: '0.65' });
+            addProduct({ name: 'Pumpkin Bites (8-pack)', supplyCost: '4.25', itemsPerBatch: '40', itemsPerPkg: '8', minutes: '60', packagingCost: '0.75' });
+            addProduct({ name: 'Apple Crunch (12-pack)', supplyCost: '4.75', itemsPerBatch: '60', itemsPerPkg: '12', minutes: '70', packagingCost: '0.85' });
+        }
+
+        function saveAllProducts() {
+            const validProducts = products.filter(p => p.name && p.price > 0);
+            if (validProducts.length === 0) {
+                alert('Add at least one product with a name and price first!');
+                return;
+            }
+
+            let savedProducts = JSON.parse(localStorage.getItem('yeeProducts') || '[]');
+            validProducts.forEach(p => {
+                savedProducts.push({
+                    name: p.name,
+                    price: '$' + p.price.toFixed(2),
+                    cost: '$' + p.costPerPkg.toFixed(2),
+                    packages: p.numPackages,
+                    savedAt: new Date().toISOString()
+                });
+            });
+            localStorage.setItem('yeeProducts', JSON.stringify(savedProducts));
+            alert('✅ ' + validProducts.length + ' products saved!');
+        }
+    </script>
+</body>
+</html>

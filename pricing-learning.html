@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Calculator - Learning Mode | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --white: #FFFFFF;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-bar .label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #E8E8E8;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--light-teal));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Step Cards */
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-gold);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+        }
+
+        .step-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+        }
+
+        /* Why Box */
+        .why-box {
+            background: var(--soft-gold);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .why-box strong {
+            color: var(--primary-teal);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .label-hint {
+            font-weight: 400;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #FAFAFA;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: white;
+        }
+
+        .input-prefix {
+            position: relative;
+        }
+
+        .input-prefix input {
+            padding-left: 32px;
+        }
+
+        .input-prefix::before {
+            content: '$';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Supplies Section */
+        .supplies-container {
+            background: var(--cream);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .supply-row {
+            display: grid;
+            grid-template-columns: 1fr 90px 70px;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: end;
+        }
+
+        .supply-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .supply-row input {
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .supply-row .input-prefix input {
+            padding-left: 24px;
+        }
+
+        .supply-row .input-prefix::before {
+            left: 10px;
+        }
+
+        .supply-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: white;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .supply-total .amount {
+            color: var(--primary-teal);
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background: #D49A38;
+            transform: translateY(-2px);
+        }
+
+        .btn-add {
+            background: var(--light-teal);
+            color: white;
+            padding: 10px 16px;
+        }
+
+        .btn-remove {
+            background: #FFE5E5;
+            color: var(--danger);
+            padding: 10px;
+            min-width: auto;
+        }
+
+        .btn-secondary {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary-teal);
+            color: var(--primary-teal);
+        }
+
+        /* Markup Options */
+        .markup-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .markup-option {
+            padding: 16px 10px;
+            border: 2px solid #E8E8E8;
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .markup-option:hover {
+            border-color: var(--light-teal);
+        }
+
+        .markup-option.selected {
+            border-color: var(--primary-gold);
+            background: var(--soft-gold);
+        }
+
+        .markup-option .percentage {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-teal);
+        }
+
+        .markup-option .label {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Results Section */
+        .results-card {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 28px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .results-card.show {
+            display: block;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            font-size: 14px;
+        }
+
+        .result-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .result-row .label {
+            opacity: 0.9;
+        }
+
+        .result-row .value {
+            font-weight: 600;
+        }
+
+        .final-price {
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .final-price .label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .final-price .price {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .final-price .note {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        .profit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(39, 174, 96, 0.2);
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 16px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .profit-badge.loss {
+            background: rgba(231, 76, 60, 0.2);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        /* Example Button */
+        .example-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: white;
+            border: 2px dashed var(--primary-teal);
+            border-radius: 14px;
+            color: var(--primary-teal);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            background: var(--soft-gold);
+            border-style: solid;
+        }
+
+        /* Tips Box */
+        .tips-box {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .tips-box h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-teal);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tips-box ul {
+            padding-left: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .tips-box li {
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a {
+            color: var(--primary-teal);
+            text-decoration: none;
+        }
+
+        footer .brand {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .supply-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .markup-options {
+                grid-template-columns: 1fr;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .btn, .example-btn, .back-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>💰 Pricing Calculator</h1>
+                <p>Learning Mode - Step by step!</p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="label">
+                <span>Your Progress</span>
+                <span id="progressText">Step 1 of 6</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Example Button -->
+        <button class="example-btn" onclick="loadExample()">
+            🐕 Load Example: Dog Treats Business
+        </button>
+
+        <!-- Step 1: Product Info -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">What Are You Making?</div>
+            </div>
+
+            <div class="why-box">
+                <strong>💡 Why this matters:</strong> Naming your product helps you think of it as a real business item, not just something you made. This is the first step to being a real entrepreneur!
+            </div>
+
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" id="productName" placeholder="e.g., Peanut Butter Dog Treats" onchange="updateProgress()">
+            </div>
+        </div>
+
+        <!-- Step 2: Supplies -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Your Supplies & Costs</div>
+            </div>
+
+            <div class="why-box">
+                <strong>💡 Why this matters:</strong> You need to know EXACTLY how much you spend to make sure you charge enough. Every penny counts! This is called your "Cost of Goods Sold" or COGS.
+            </div>
+
+            <p style="font-size: 13px; color: var(--text-light); margin-bottom: 14px;">
+                Add each ingredient or supply. Include the full price you paid and how many batches you can make from it.
+            </p>
+
+            <div class="supplies-container" id="suppliesContainer">
+                <div class="supply-row">
+                    <div>
+                        <label style="font-size: 11px;">Supply Name</label>
+                        <input type="text" class="supply-name" placeholder="e.g., Flour" onchange="calculateSupplies()">
+                    </div>
+                    <div class="input-prefix">
+                        <label style="font-size: 11px;">Cost</label>
+                        <input type="number" class="supply-cost" placeholder="0.00" step="0.01" min="0" onchange="calculateSupplies()">
+                    </div>
+                    <div>
+                        <label style="font-size: 11px;">Batches</label>
+                        <input type="number" class="supply-batches" placeholder="1" min="0.1" step="0.1" value="1" onchange="calculateSupplies()">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-add" onclick="addSupply()">➕ Add Supply</button>
+
+            <div class="supply-total">
+                <span>Total Supply Cost Per Batch:</span>
+                <span class="amount" id="supplyTotal">$0.00</span>
+            </div>
+        </div>
+
+        <!-- Step 3: Production -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">What You'll Make</div>
+            </div>
+
+            <div class="why-box">
+                <strong>💡 Why this matters:</strong> Knowing how many items you get from your supplies helps you figure out the cost PER ITEM. This is key to setting the right price!
+            </div>
+
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Items Per Batch
+                        <span class="label-hint">(total pieces)</span>
+                    </label>
+                    <input type="number" id="itemsPerBatch" placeholder="48" min="1" onchange="updateProgress()">
+                </div>
+                <div class="form-group">
+                    <label>Items Per Package
+                        <span class="label-hint">(you sell)</span>
+                    </label>
+                    <input type="number" id="itemsPerPackage" placeholder="6" min="1" onchange="updateProgress()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Your Time -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-title">Your Time Matters!</div>
+            </div>
+
+            <div class="why-box">
+                <strong>💡 Why this matters:</strong> YOUR TIME IS VALUABLE! Many young entrepreneurs forget to pay themselves. If you spent 2 hours, that's 2 hours you could have been doing something else. You deserve to be paid for your work!
+            </div>
+
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Minutes to Make
+                        <span class="label-hint">(one batch)</span>
+                    </label>
+                    <input type="number" id="timeMinutes" placeholder="60" min="1" onchange="updateProgress()">
+                </div>
+                <div class="form-group">
+                    <label>Your Hourly Rate
+                        <span class="label-hint">($10-15 min!)</span>
+                    </label>
+                    <div class="input-prefix">
+                        <input type="number" id="hourlyRate" placeholder="12" step="0.5" min="0" value="12" onchange="updateProgress()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Packaging -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-title">Packaging Costs</div>
+            </div>
+
+            <div class="why-box">
+                <strong>💡 Why this matters:</strong> Packaging is easy to forget, but it adds up fast! A bag, label, ribbon, and tag might cost $1 or more per package. Don't give that away for free!
+            </div>
+
+            <div class="form-group">
+                <label>Cost Per Package
+                    <span class="label-hint">(bag + label + extras)</span>
+                </label>
+                <div class="input-prefix">
+                    <input type="number" id="packagingCost" placeholder="0.65" step="0.01" min="0" onchange="updateProgress()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Markup -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <div class="step-title">Choose Your Markup</div>
+            </div>
+
+            <div class="why-box">
+                <strong>💡 Why this matters:</strong> Markup is extra money you add to cover things like: selling fees (Etsy takes 10%!), unexpected costs, discounts you might offer, and YOUR PROFIT. Without markup, you're just breaking even—or worse, losing money!
+            </div>
+
+            <p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;">
+                Industry standard for handmade goods is 2x (100% markup). This means you double your costs.
+            </p>
+
+            <div class="markup-options">
+                <div class="markup-option" data-markup="1.5" onclick="selectMarkup(this)">
+                    <div class="percentage">1.5x</div>
+                    <div class="label">50% - Starting</div>
+                </div>
+                <div class="markup-option selected" data-markup="2" onclick="selectMarkup(this)">
+                    <div class="percentage">2x</div>
+                    <div class="label">100% - Recommended</div>
+                </div>
+                <div class="markup-option" data-markup="2.5" onclick="selectMarkup(this)">
+                    <div class="percentage">2.5x</div>
+                    <div class="label">150% - Premium</div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 12px;">
+                <label>Or enter custom multiplier:</label>
+                <input type="number" id="customMarkup" value="2" step="0.1" min="1" max="5" onchange="updateProgress()">
+            </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <button class="btn btn-primary" onclick="calculate()">
+            ✨ Calculate My Price!
+        </button>
+
+        <!-- Results -->
+        <div class="results-card" id="resultsCard">
+            <h2>📊 Your Pricing Breakdown</h2>
+
+            <div class="result-row">
+                <span class="label">Total Supply Cost</span>
+                <span class="value" id="resultSupplies">$0.00</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Cost Per Item</span>
+                <span class="value" id="resultPerItem">$0.00</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Your Labor Cost</span>
+                <span class="value" id="resultLabor">$0.00</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Packaging Per Package</span>
+                <span class="value" id="resultPackaging">$0.00</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Total Cost Per Package</span>
+                <span class="value" id="resultCostPer">$0.00</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Number of Packages</span>
+                <span class="value" id="resultNumPkgs">0</span>
+            </div>
+
+            <div class="final-price">
+                <div class="label">💰 Your Recommended Price</div>
+                <div class="price" id="resultPrice">$0.00</div>
+                <div class="note">With <span id="markupDisplay">100%</span> markup</div>
+            </div>
+
+            <div class="profit-badge" id="profitBadge">
+                <span>💵</span>
+                <span id="profitText">$0.00 profit per package!</span>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-outline" onclick="window.print()">🖨️ Print</button>
+                <button class="btn btn-secondary" onclick="saveProduct()">💾 Save Product</button>
+            </div>
+        </div>
+
+        <!-- Tips Box -->
+        <div class="tips-box">
+            <h3>💡 Quick Tips</h3>
+            <ul>
+                <li><strong>Round up your price</strong> - $6.92 should become $7.00 or $6.99</li>
+                <li><strong>Test your price</strong> - Try selling a few before making a big batch</li>
+                <li><strong>Check competitors</strong> - See what similar products sell for</li>
+                <li><strong>It's okay to adjust</strong> - You can always change your price later!</li>
+                <li><strong>Track your costs</strong> - Keep receipts to know your real expenses</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let selectedMarkup = 2;
+
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+            updateProgress();
+        });
+
+        function addSupply() {
+            const container = document.getElementById('suppliesContainer');
+            const row = document.createElement('div');
+            row.className = 'supply-row';
+            row.innerHTML = `
+                <div>
+                    <label style="font-size: 11px;">Supply Name</label>
+                    <input type="text" class="supply-name" placeholder="e.g., Sugar" onchange="calculateSupplies()">
+                </div>
+                <div class="input-prefix">
+                    <label style="font-size: 11px;">Cost</label>
+                    <input type="number" class="supply-cost" placeholder="0.00" step="0.01" min="0" onchange="calculateSupplies()">
+                </div>
+                <div style="display: flex; gap: 6px; align-items: end;">
+                    <div style="flex: 1;">
+                        <label style="font-size: 11px;">Batches</label>
+                        <input type="number" class="supply-batches" placeholder="1" min="0.1" step="0.1" value="1" onchange="calculateSupplies()">
+                    </div>
+                    <button class="btn btn-remove" onclick="removeSupply(this)">✕</button>
+                </div>
+            `;
+            container.appendChild(row);
+        }
+
+        function removeSupply(btn) {
+            const rows = document.querySelectorAll('.supply-row');
+            if (rows.length > 1) {
+                btn.closest('.supply-row').remove();
+                calculateSupplies();
+            }
+        }
+
+        function calculateSupplies() {
+            const rows = document.querySelectorAll('.supply-row');
+            let total = 0;
+
+            rows.forEach(row => {
+                const cost = parseFloat(row.querySelector('.supply-cost').value) || 0;
+                const batches = parseFloat(row.querySelector('.supply-batches').value) || 1;
+                total += cost / batches;
+            });
+
+            document.getElementById('supplyTotal').textContent = '$' + total.toFixed(2);
+            updateProgress();
+        }
+
+        function selectMarkup(element) {
+            document.querySelectorAll('.markup-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedMarkup = parseFloat(element.dataset.markup);
+            document.getElementById('customMarkup').value = selectedMarkup;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let filled = 0;
+            const checks = [
+                document.getElementById('productName').value,
+                document.getElementById('supplyTotal').textContent !== '$0.00',
+                document.getElementById('itemsPerBatch').value,
+                document.getElementById('timeMinutes').value,
+                document.getElementById('packagingCost').value,
+                document.getElementById('customMarkup').value
+            ];
+
+            checks.forEach(check => { if (check) filled++; });
+
+            const percent = (filled / 6) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `Step ${Math.min(filled + 1, 6)} of 6`;
+        }
+
+        function calculate() {
+            // Get values
+            const supplyText = document.getElementById('supplyTotal').textContent;
+            const supplyCost = parseFloat(supplyText.replace('$', '')) || 0;
+            const itemsPerBatch = parseInt(document.getElementById('itemsPerBatch').value) || 0;
+            const itemsPerPackage = parseInt(document.getElementById('itemsPerPackage').value) || 1;
+            const timeMinutes = parseInt(document.getElementById('timeMinutes').value) || 0;
+            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+            const packagingCost = parseFloat(document.getElementById('packagingCost').value) || 0;
+            const markup = parseFloat(document.getElementById('customMarkup').value) || 2;
+
+            // Calculations
+            const numPackages = Math.floor(itemsPerBatch / itemsPerPackage);
+            const costPerItem = itemsPerBatch > 0 ? supplyCost / itemsPerBatch : 0;
+            const laborTotal = (timeMinutes / 60) * hourlyRate;
+            const laborPerPkg = numPackages > 0 ? laborTotal / numPackages : 0;
+            const materialPerPkg = costPerItem * itemsPerPackage;
+            const costPerPkg = materialPerPkg + laborPerPkg + packagingCost;
+            const price = costPerPkg * markup;
+            const profit = price - costPerPkg;
+
+            // Update display
+            document.getElementById('resultSupplies').textContent = '$' + supplyCost.toFixed(2);
+            document.getElementById('resultPerItem').textContent = '$' + costPerItem.toFixed(2);
+            document.getElementById('resultLabor').textContent = '$' + laborPerPkg.toFixed(2) + '/pkg';
+            document.getElementById('resultPackaging').textContent = '$' + packagingCost.toFixed(2);
+            document.getElementById('resultCostPer').textContent = '$' + costPerPkg.toFixed(2);
+            document.getElementById('resultNumPkgs').textContent = numPackages;
+            document.getElementById('resultPrice').textContent = '$' + price.toFixed(2);
+            document.getElementById('markupDisplay').textContent = ((markup - 1) * 100).toFixed(0) + '%';
+
+            // Profit display
+            const profitBadge = document.getElementById('profitBadge');
+            const profitText = document.getElementById('profitText');
+
+            if (profit >= 0) {
+                profitBadge.classList.remove('loss');
+                profitText.textContent = `$${profit.toFixed(2)} profit per package! (Total: $${(profit * numPackages).toFixed(2)})`;
+            } else {
+                profitBadge.classList.add('loss');
+                profitText.textContent = `Warning: $${Math.abs(profit).toFixed(2)} LOSS per package!`;
+            }
+
+            // Show results
+            document.getElementById('resultsCard').classList.add('show');
+            document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function loadExample() {
+            // Product name
+            document.getElementById('productName').value = 'Peanut Butter Dog Treats';
+
+            // Supplies
+            const container = document.getElementById('suppliesContainer');
+            container.innerHTML = `
+                <div class="supply-row">
+                    <div>
+                        <label style="font-size: 11px;">Supply Name</label>
+                        <input type="text" class="supply-name" value="Whole Wheat Flour (5lb)" onchange="calculateSupplies()">
+                    </div>
+                    <div class="input-prefix">
+                        <label style="font-size: 11px;">Cost</label>
+                        <input type="number" class="supply-cost" value="4.50" step="0.01" min="0" onchange="calculateSupplies()">
+                    </div>
+                    <div>
+                        <label style="font-size: 11px;">Batches</label>
+                        <input type="number" class="supply-batches" value="3" min="0.1" step="0.1" onchange="calculateSupplies()">
+                    </div>
+                </div>
+                <div class="supply-row">
+                    <div>
+                        <label style="font-size: 11px;">Supply Name</label>
+                        <input type="text" class="supply-name" value="Peanut Butter (jar)" onchange="calculateSupplies()">
+                    </div>
+                    <div class="input-prefix">
+                        <label style="font-size: 11px;">Cost</label>
+                        <input type="number" class="supply-cost" value="5.99" step="0.01" min="0" onchange="calculateSupplies()">
+                    </div>
+                    <div style="display: flex; gap: 6px; align-items: end;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 11px;">Batches</label>
+                            <input type="number" class="supply-batches" value="2" min="0.1" step="0.1" onchange="calculateSupplies()">
+                        </div>
+                        <button class="btn btn-remove" onclick="removeSupply(this)">✕</button>
+                    </div>
+                </div>
+                <div class="supply-row">
+                    <div>
+                        <label style="font-size: 11px;">Supply Name</label>
+                        <input type="text" class="supply-name" value="Eggs (1 dozen)" onchange="calculateSupplies()">
+                    </div>
+                    <div class="input-prefix">
+                        <label style="font-size: 11px;">Cost</label>
+                        <input type="number" class="supply-cost" value="4.29" step="0.01" min="0" onchange="calculateSupplies()">
+                    </div>
+                    <div style="display: flex; gap: 6px; align-items: end;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 11px;">Batches</label>
+                            <input type="number" class="supply-batches" value="6" min="0.1" step="0.1" onchange="calculateSupplies()">
+                        </div>
+                        <button class="btn btn-remove" onclick="removeSupply(this)">✕</button>
+                    </div>
+                </div>
+                <div class="supply-row">
+                    <div>
+                        <label style="font-size: 11px;">Supply Name</label>
+                        <input type="text" class="supply-name" value="Oats (container)" onchange="calculateSupplies()">
+                    </div>
+                    <div class="input-prefix">
+                        <label style="font-size: 11px;">Cost</label>
+                        <input type="number" class="supply-cost" value="3.49" step="0.01" min="0" onchange="calculateSupplies()">
+                    </div>
+                    <div style="display: flex; gap: 6px; align-items: end;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 11px;">Batches</label>
+                            <input type="number" class="supply-batches" value="4" min="0.1" step="0.1" onchange="calculateSupplies()">
+                        </div>
+                        <button class="btn btn-remove" onclick="removeSupply(this)">✕</button>
+                    </div>
+                </div>
+            `;
+
+            // Other fields
+            document.getElementById('itemsPerBatch').value = 48;
+            document.getElementById('itemsPerPackage').value = 6;
+            document.getElementById('timeMinutes').value = 75;
+            document.getElementById('hourlyRate').value = 12;
+            document.getElementById('packagingCost').value = 0.65;
+
+            calculateSupplies();
+            updateProgress();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function saveProduct() {
+            const product = {
+                name: document.getElementById('productName').value,
+                price: document.getElementById('resultPrice').textContent,
+                cost: document.getElementById('resultCostPer').textContent,
+                packages: document.getElementById('resultNumPkgs').textContent,
+                savedAt: new Date().toISOString()
+            };
+
+            let savedProducts = JSON.parse(localStorage.getItem('yeeProducts') || '[]');
+            savedProducts.push(product);
+            localStorage.setItem('yeeProducts', JSON.stringify(savedProducts));
+
+            alert('✅ Product saved! View it in "My Product List"');
+        }
+    </script>
+</body>
+</html>

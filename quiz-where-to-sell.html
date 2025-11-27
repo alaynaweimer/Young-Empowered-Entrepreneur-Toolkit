@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Should I Sell? | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Progress */
+        .progress-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-bar .label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #E8E8E8;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--light-teal));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Question Card */
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .question-card.active { display: block; }
+
+        .question-number {
+            display: inline-block;
+            background: var(--primary-gold);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            border: 2px solid #E8E8E8;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .option:hover {
+            border-color: var(--light-teal);
+            background: #FAFAFA;
+        }
+
+        .option.selected {
+            border-color: var(--primary-gold);
+            background: var(--soft-gold);
+        }
+
+        .option .emoji { font-size: 24px; }
+        .option .text { font-size: 15px; font-weight: 500; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover { background: #D49A38; }
+        .btn-primary:disabled { background: #CCC; cursor: not-allowed; }
+        .btn-secondary { background: var(--primary-teal); color: white; }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .nav-buttons .btn { flex: 1; }
+
+        /* Results */
+        .results-section { display: none; }
+        .results-section.show { display: block; }
+
+        .results-header {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .results-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .results-header p { opacity: 0.9; font-size: 14px; }
+
+        /* Venue Cards */
+        .venue-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .venue-card .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--soft-gold);
+            color: var(--primary-teal);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .venue-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .venue-card .description {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .venue-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .venue-detail {
+            background: var(--cream);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .venue-detail .label {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .venue-detail .value {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-teal);
+        }
+
+        .venue-card .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #E8E8E8;
+        }
+
+        .pros, .cons {
+            font-size: 13px;
+        }
+
+        .pros h4, .cons h4 {
+            font-size: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pros h4 { color: #27AE60; }
+        .cons h4 { color: #E74C3C; }
+
+        .pros ul, .cons ul {
+            padding-left: 16px;
+            line-height: 1.6;
+        }
+
+        .venue-card .get-started {
+            margin-top: 16px;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--light-teal), var(--primary-teal));
+            border-radius: 12px;
+            color: white;
+        }
+
+        .get-started h4 {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .get-started p {
+            font-size: 12px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        /* Not Recommended */
+        .not-recommended {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .not-recommended h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .not-rec-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #E8E8E8;
+            font-size: 14px;
+        }
+
+        .not-rec-item:last-child { border-bottom: none; }
+        .not-rec-item .emoji { font-size: 20px; opacity: 0.5; }
+        .not-rec-item .reason { color: var(--text-light); font-size: 12px; }
+
+        /* Restart */
+        .restart-btn { margin-top: 20px; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        @media (max-width: 500px) {
+            .venue-details, .pros-cons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>📍 Where Should I Sell?</h1>
+                <p>Find the perfect place to sell YOUR products!</p>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quizSection">
+            <div class="progress-bar">
+                <div class="label">
+                    <span>Your Progress</span>
+                    <span id="progressText">Question 1 of 5</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+                </div>
+            </div>
+
+            <!-- Question 1: Product Type -->
+            <div class="question-card active" data-question="1">
+                <span class="question-number">Question 1</span>
+                <div class="question-text">What type of product are you selling?</div>
+                <div class="options">
+                    <div class="option" data-value="food" onclick="selectOption(this)">
+                        <span class="emoji">🍪</span>
+                        <span class="text">Food / Baked Goods / Treats</span>
+                    </div>
+                    <div class="option" data-value="crafts" onclick="selectOption(this)">
+                        <span class="emoji">🎨</span>
+                        <span class="text">Crafts / Handmade Items</span>
+                    </div>
+                    <div class="option" data-value="services" onclick="selectOption(this)">
+                        <span class="emoji">🤝</span>
+                        <span class="text">Services (pet sitting, lawn care, etc.)</span>
+                    </div>
+                    <div class="option" data-value="plants" onclick="selectOption(this)">
+                        <span class="emoji">🌱</span>
+                        <span class="text">Plants / Garden Items</span>
+                    </div>
+                    <div class="option" data-value="other" onclick="selectOption(this)">
+                        <span class="emoji">📦</span>
+                        <span class="text">Something else</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="nextQuestion(1)" disabled id="btn1">Next →</button>
+                </div>
+            </div>
+
+            <!-- Question 2: How Much Inventory -->
+            <div class="question-card" data-question="2">
+                <span class="question-number">Question 2</span>
+                <div class="question-text">How much can you make or offer at once?</div>
+                <div class="options">
+                    <div class="option" data-value="little" onclick="selectOption(this)">
+                        <span class="emoji">📦</span>
+                        <span class="text">Just a few items at a time</span>
+                    </div>
+                    <div class="option" data-value="medium" onclick="selectOption(this)">
+                        <span class="emoji">📦📦</span>
+                        <span class="text">A decent amount (10-30 items)</span>
+                    </div>
+                    <div class="option" data-value="lots" onclick="selectOption(this)">
+                        <span class="emoji">📦📦📦</span>
+                        <span class="text">Lots! I can make big batches</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevQuestion(2)">← Back</button>
+                    <button class="btn btn-primary" onclick="nextQuestion(2)" disabled id="btn2">Next →</button>
+                </div>
+            </div>
+
+            <!-- Question 3: Age -->
+            <div class="question-card" data-question="3">
+                <span class="question-number">Question 3</span>
+                <div class="question-text">How old are you?</div>
+                <div class="options">
+                    <div class="option" data-value="8-10" onclick="selectOption(this)">
+                        <span class="emoji">🧒</span>
+                        <span class="text">8-10 years old</span>
+                    </div>
+                    <div class="option" data-value="11-13" onclick="selectOption(this)">
+                        <span class="emoji">👦</span>
+                        <span class="text">11-13 years old</span>
+                    </div>
+                    <div class="option" data-value="14-18" onclick="selectOption(this)">
+                        <span class="emoji">🧑</span>
+                        <span class="text">14-18 years old</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevQuestion(3)">← Back</button>
+                    <button class="btn btn-primary" onclick="nextQuestion(3)" disabled id="btn3">Next →</button>
+                </div>
+            </div>
+
+            <!-- Question 4: Transportation -->
+            <div class="question-card" data-question="4">
+                <span class="question-number">Question 4</span>
+                <div class="question-text">How can you get to places to sell?</div>
+                <div class="options">
+                    <div class="option" data-value="walk" onclick="selectOption(this)">
+                        <span class="emoji">🚶</span>
+                        <span class="text">Walking / biking distance only</span>
+                    </div>
+                    <div class="option" data-value="ride" onclick="selectOption(this)">
+                        <span class="emoji">🚗</span>
+                        <span class="text">Parents can give me rides</span>
+                    </div>
+                    <div class="option" data-value="drive" onclick="selectOption(this)">
+                        <span class="emoji">🚙</span>
+                        <span class="text">I can drive myself (or almost can)</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevQuestion(4)">← Back</button>
+                    <button class="btn btn-primary" onclick="nextQuestion(4)" disabled id="btn4">Next →</button>
+                </div>
+            </div>
+
+            <!-- Question 5: Comfort Level -->
+            <div class="question-card" data-question="5">
+                <span class="question-number">Question 5</span>
+                <div class="question-text">How do you feel about talking to strangers?</div>
+                <div class="options">
+                    <div class="option" data-value="shy" onclick="selectOption(this)">
+                        <span class="emoji">😊</span>
+                        <span class="text">Pretty shy - I prefer less interaction</span>
+                    </div>
+                    <div class="option" data-value="okay" onclick="selectOption(this)">
+                        <span class="emoji">🙂</span>
+                        <span class="text">I'm okay with it, especially with a parent nearby</span>
+                    </div>
+                    <div class="option" data-value="confident" onclick="selectOption(this)">
+                        <span class="emoji">😄</span>
+                        <span class="text">I love meeting new people!</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevQuestion(5)">← Back</button>
+                    <button class="btn btn-primary" onclick="showResults()" disabled id="btn5">See My Results! 🎉</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2>📍 Your Best Places to Sell!</h2>
+                <p>Based on your answers, here are venues ranked for YOU:</p>
+            </div>
+
+            <div id="resultsContent"></div>
+
+            <div class="not-recommended" id="notRecommended" style="display: none;">
+                <h3>🚫 Not Recommended Right Now</h3>
+                <div id="notRecContent"></div>
+            </div>
+
+            <button class="btn btn-secondary restart-btn" onclick="restart()" style="width: 100%;">
+                🔄 Take Quiz Again
+            </button>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        let answers = {};
+        let currentQuestion = 1;
+        const totalQuestions = 5;
+
+        function updateProgress() {
+            const percent = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `Question ${currentQuestion} of ${totalQuestions}`;
+        }
+
+        function selectOption(element) {
+            const parent = element.closest('.options');
+            parent.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            const btn = document.getElementById('btn' + currentQuestion);
+            if (btn) btn.disabled = false;
+        }
+
+        function nextQuestion(q) {
+            const card = document.querySelector(`.question-card[data-question="${q}"]`);
+            const selected = card.querySelector('.option.selected');
+            
+            const keys = ['product', 'inventory', 'age', 'transport', 'comfort'];
+            answers[keys[q-1]] = selected ? selected.dataset.value : null;
+
+            card.classList.remove('active');
+            currentQuestion++;
+            document.querySelector(`.question-card[data-question="${currentQuestion}"]`).classList.add('active');
+            updateProgress();
+        }
+
+        function prevQuestion(q) {
+            const card = document.querySelector(`.question-card[data-question="${q}"]`);
+            card.classList.remove('active');
+            currentQuestion--;
+            document.querySelector(`.question-card[data-question="${currentQuestion}"]`).classList.add('active');
+            updateProgress();
+        }
+
+        function showResults() {
+            const card = document.querySelector('.question-card[data-question="5"]');
+            const selected = card.querySelector('.option.selected');
+            answers.comfort = selected ? selected.dataset.value : null;
+
+            const venues = generateRecommendations();
+            
+            let html = '';
+            venues.recommended.forEach((venue, index) => {
+                html += renderVenueCard(venue, index + 1);
+            });
+            document.getElementById('resultsContent').innerHTML = html;
+
+            if (venues.notRecommended.length > 0) {
+                let notRecHtml = '';
+                venues.notRecommended.forEach(item => {
+                    notRecHtml += `
+                        <div class="not-rec-item">
+                            <span class="emoji">${item.emoji}</span>
+                            <div>
+                                <strong>${item.name}</strong>
+                                <div class="reason">${item.reason}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('notRecContent').innerHTML = notRecHtml;
+                document.getElementById('notRecommended').style.display = 'block';
+            }
+
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('show');
+        }
+
+        function renderVenueCard(venue, rank) {
+            const rankLabels = ['🥇 #1 Best Match!', '🥈 #2 Great Option!', '🥉 #3 Also Good!', '#4 Worth Trying', '#5 Consider This'];
+            return `
+                <div class="venue-card">
+                    <span class="rank-badge">${rankLabels[rank-1] || '#' + rank}</span>
+                    <h3>${venue.emoji} ${venue.name}</h3>
+                    <p class="description">${venue.description}</p>
+                    <div class="venue-details">
+                        <div class="venue-detail">
+                            <div class="label">Typical Fees</div>
+                            <div class="value">${venue.fees}</div>
+                        </div>
+                        <div class="venue-detail">
+                            <div class="label">Best For</div>
+                            <div class="value">${venue.bestFor}</div>
+                        </div>
+                        <div class="venue-detail">
+                            <div class="label">Difficulty</div>
+                            <div class="value">${venue.difficulty}</div>
+                        </div>
+                        <div class="venue-detail">
+                            <div class="label">Parent Help Needed</div>
+                            <div class="value">${venue.parentHelp}</div>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Pros</h4>
+                            <ul>${venue.pros.map(p => `<li>${p}</li>`).join('')}</ul>
+                        </div>
+                        <div class="cons">
+                            <h4>⚠️ Watch Out</h4>
+                            <ul>${venue.cons.map(c => `<li>${c}</li>`).join('')}</ul>
+                        </div>
+                    </div>
+                    <div class="get-started">
+                        <h4>🚀 How to Get Started:</h4>
+                        <p>${venue.howToStart}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateRecommendations() {
+            const allVenues = [
+                {
+                    name: "Neighborhood Sales",
+                    emoji: "🏘️",
+                    description: "Sell door-to-door or set up in your front yard. Your neighbors are your first and best customers!",
+                    fees: "Free!",
+                    bestFor: "All products",
+                    difficulty: "Easy",
+                    parentHelp: "Some (safety)",
+                    pros: ["No fees", "Know your customers", "Easy to start", "Great practice"],
+                    cons: ["Limited customers", "Weather dependent", "Need parent permission"],
+                    howToStart: "Talk to your parents first. Make a flyer and visit neighbors you know. A front yard stand works great on nice weekends!",
+                    tags: ["food", "crafts", "services", "plants", "other"],
+                    inventory: ["little", "medium", "lots"],
+                    ages: ["8-10", "11-13", "14-18"],
+                    transport: ["walk", "ride", "drive"],
+                    comfort: ["shy", "okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "Family & Friends",
+                    emoji: "👨‍👩‍👧‍👦",
+                    description: "Start with people who already love you! Family members, parents' coworkers, and family friends.",
+                    fees: "Free!",
+                    bestFor: "All products",
+                    difficulty: "Super Easy",
+                    parentHelp: "A little",
+                    pros: ["Built-in customers", "Easy first sales", "Great for building confidence", "Honest feedback"],
+                    cons: ["Limited market", "May feel awkward asking"],
+                    howToStart: "Ask parents to share what you're making with coworkers and friends. Holidays and birthdays are perfect times to offer your products!",
+                    tags: ["food", "crafts", "services", "plants", "other"],
+                    inventory: ["little", "medium", "lots"],
+                    ages: ["8-10", "11-13", "14-18"],
+                    transport: ["walk", "ride", "drive"],
+                    comfort: ["shy", "okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "School Events",
+                    emoji: "🏫",
+                    description: "Bake sales, craft fairs, sports events, and school fundraisers. Lots of built-in customers!",
+                    fees: "Usually free or small",
+                    bestFor: "Food, crafts, small items",
+                    difficulty: "Easy-Medium",
+                    parentHelp: "Moderate",
+                    pros: ["Know your audience", "Built-in traffic", "Good for baked goods"],
+                    cons: ["Limited dates", "May need school approval", "Competition with other sellers"],
+                    howToStart: "Ask a teacher or parent group about upcoming events. School carnivals and sports games are especially good!",
+                    tags: ["food", "crafts"],
+                    inventory: ["medium", "lots"],
+                    ages: ["8-10", "11-13", "14-18"],
+                    transport: ["walk", "ride", "drive"],
+                    comfort: ["okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "Farmers Markets",
+                    emoji: "🥕",
+                    description: "Weekly markets where locals shop for fresh, handmade goods. Great for serious young entrepreneurs!",
+                    fees: "$15-50/day",
+                    bestFor: "Food, plants, crafts",
+                    difficulty: "Medium",
+                    parentHelp: "Yes - must attend",
+                    pros: ["Regular customers", "Good foot traffic", "Legit business experience"],
+                    cons: ["Booth fees", "Early mornings", "Need enough inventory", "May need permits"],
+                    howToStart: "Visit your local farmers market first to see how it works. Ask the manager about youth vendor programs - many have special rates for kids!",
+                    tags: ["food", "plants", "crafts"],
+                    inventory: ["medium", "lots"],
+                    ages: ["11-13", "14-18"],
+                    transport: ["ride", "drive"],
+                    comfort: ["okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "Craft Fairs & Markets",
+                    emoji: "🎪",
+                    description: "Special events for handmade goods. Holiday markets are especially popular!",
+                    fees: "$25-100/event",
+                    bestFor: "Crafts, art, jewelry",
+                    difficulty: "Medium",
+                    parentHelp: "Yes",
+                    pros: ["Customers ready to buy", "Fun atmosphere", "Meet other makers"],
+                    cons: ["Higher fees", "Competitive", "Need good display"],
+                    howToStart: "Search for local craft fairs online. Start with smaller community events before bigger ones. Holiday markets in Nov-Dec are HUGE!",
+                    tags: ["crafts", "other"],
+                    inventory: ["medium", "lots"],
+                    ages: ["11-13", "14-18"],
+                    transport: ["ride", "drive"],
+                    comfort: ["okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "Online - Etsy (with parent)",
+                    emoji: "💻",
+                    description: "Sell to customers worldwide! Requires a parent to manage the account.",
+                    fees: "~10-12% per sale",
+                    bestFor: "Crafts, unique items",
+                    difficulty: "Medium-Hard",
+                    parentHelp: "Yes - must run account",
+                    pros: ["Huge customer base", "Sell 24/7", "Build real online business"],
+                    cons: ["Fees add up", "Shipping complexity", "Lots of competition"],
+                    howToStart: "A parent must create and manage the account. Start with 5-10 great product photos. Learn about shipping costs before pricing!",
+                    tags: ["crafts", "other"],
+                    inventory: ["little", "medium", "lots"],
+                    ages: ["14-18"],
+                    transport: ["walk", "ride", "drive"],
+                    comfort: ["shy", "okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "Local Stores (Consignment)",
+                    emoji: "🏪",
+                    description: "Some local shops will sell your items and take a percentage. Great for steady sales!",
+                    fees: "30-50% of sale price",
+                    bestFor: "Crafts, specialty food",
+                    difficulty: "Medium-Hard",
+                    parentHelp: "Yes for setup",
+                    pros: ["Passive income", "Store handles sales", "Professional feel"],
+                    cons: ["They keep big cut", "Need professional quality", "Competition for shelf space"],
+                    howToStart: "Visit local gift shops, pet stores, or boutiques. Bring samples and be ready to explain your products. Start with one store!",
+                    tags: ["crafts", "food", "plants"],
+                    inventory: ["medium", "lots"],
+                    ages: ["14-18"],
+                    transport: ["ride", "drive"],
+                    comfort: ["okay", "confident"],
+                    score: 0
+                },
+                {
+                    name: "Social Media Sales",
+                    emoji: "📱",
+                    description: "Use Instagram, Facebook Marketplace, or Nextdoor to reach local buyers.",
+                    fees: "Free or small",
+                    bestFor: "All products",
+                    difficulty: "Easy-Medium",
+                    parentHelp: "Yes - monitor account",
+                    pros: ["Free marketing", "Reach many people", "Easy to share photos"],
+                    cons: ["Need good photos", "Must meet strangers safely", "Algorithm challenges"],
+                    howToStart: "With parent permission, create a business account. Post great photos regularly. Always meet buyers with a parent in public places!",
+                    tags: ["food", "crafts", "services", "plants", "other"],
+                    inventory: ["little", "medium", "lots"],
+                    ages: ["11-13", "14-18"],
+                    transport: ["walk", "ride", "drive"],
+                    comfort: ["shy", "okay", "confident"],
+                    score: 0
+                }
+            ];
+
+            // Score each venue
+            allVenues.forEach(venue => {
+                let score = 0;
+                
+                if (venue.tags.includes(answers.product)) score += 3;
+                if (venue.inventory.includes(answers.inventory)) score += 2;
+                if (venue.ages.includes(answers.age)) score += 3;
+                if (venue.transport.includes(answers.transport)) score += 2;
+                if (venue.comfort.includes(answers.comfort)) score += 2;
+
+                // Bonuses
+                if (answers.age === '8-10' && venue.name === 'Family & Friends') score += 2;
+                if (answers.comfort === 'shy' && (venue.name === 'Family & Friends' || venue.name === 'Online - Etsy (with parent)')) score += 2;
+                if (answers.inventory === 'little' && venue.name === 'Family & Friends') score += 2;
+
+                venue.score = score;
+            });
+
+            allVenues.sort((a, b) => b.score - a.score);
+
+            const recommended = allVenues.filter(v => v.score >= 6).slice(0, 5);
+            const notRecommended = [];
+
+            allVenues.forEach(v => {
+                if (!v.ages.includes(answers.age)) {
+                    notRecommended.push({ name: v.name, emoji: v.emoji, reason: "May be better when you're older" });
+                } else if (!v.transport.includes(answers.transport) && v.score < 6) {
+                    notRecommended.push({ name: v.name, emoji: v.emoji, reason: "Transportation might be challenging" });
+                }
+            });
+
+            return { recommended, notRecommended: notRecommended.slice(0, 3) };
+        }
+
+        function restart() {
+            answers = {};
+            currentQuestion = 1;
+            
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.nav-buttons .btn-primary').forEach(btn => {
+                if (btn.id) btn.disabled = true;
+            });
+
+            document.getElementById('quizSection').style.display = 'block';
+            document.getElementById('resultsSection').classList.remove('show');
+            document.getElementById('notRecommended').style.display = 'none';
+            
+            document.querySelectorAll('.question-card').forEach(card => card.classList.remove('active'));
+            document.querySelector('.question-card[data-question="1"]').classList.add('active');
+            
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

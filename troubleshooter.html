@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Troubleshooter | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Intro */
+        .intro-card {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .intro-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .intro-card p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Problem Selector */
+        .problem-selector {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .problem-selector h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .problem-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--cream);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .problem-btn:hover {
+            border-color: var(--light-teal);
+            transform: translateY(-2px);
+        }
+
+        .problem-btn.active {
+            border-color: var(--primary-gold);
+            background: var(--soft-gold);
+        }
+
+        .problem-btn .emoji {
+            font-size: 28px;
+        }
+
+        .problem-btn .text {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-teal);
+        }
+
+        /* Solution Section */
+        .solution-section {
+            display: none;
+        }
+
+        .solution-section.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .solution-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .solution-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--cream);
+        }
+
+        .solution-header .emoji {
+            font-size: 36px;
+        }
+
+        .solution-header h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+        }
+
+        /* Diagnosis */
+        .diagnosis-section {
+            background: #FFF3CD;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .diagnosis-section h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .diagnosis-section ul {
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Solutions List */
+        .solutions-list h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--primary-teal);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .solution-item {
+            background: var(--cream);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--light-teal);
+        }
+
+        .solution-item h5 {
+            font-size: 15px;
+            color: var(--primary-teal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .solution-item p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+        .solution-item .action-steps {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #DDD;
+        }
+
+        .solution-item .action-steps h6 {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .solution-item .action-steps ol {
+            padding-left: 18px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Quick Tip */
+        .quick-tip {
+            background: linear-gradient(135deg, var(--light-teal), var(--primary-teal));
+            color: white;
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+        .quick-tip h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-tip p {
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+
+        /* Back button */
+        .back-to-problems {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid var(--primary-teal);
+            border-radius: 12px;
+            color: var(--primary-teal);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .back-to-problems:hover {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>🔧 Business Troubleshooter</h1>
+                <p>Solutions for common business problems!</p>
+            </div>
+        </div>
+
+        <div class="intro-card">
+            <h2>🩺 What's Your Problem?</h2>
+            <p>Every entrepreneur faces challenges. Let's figure out what's going on and fix it together!</p>
+        </div>
+
+        <!-- Problem Selector -->
+        <div class="problem-selector" id="problemSelector">
+            <h3>Select what's happening:</h3>
+            <div class="problem-grid">
+                <button class="problem-btn" onclick="showSolution('not-selling')">
+                    <span class="emoji">😢</span>
+                    <span class="text">I'm not selling anything</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('too-expensive')">
+                    <span class="emoji">💸</span>
+                    <span class="text">People say it's too expensive</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('no-profit')">
+                    <span class="emoji">📉</span>
+                    <span class="text">I'm not making profit</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('running-out')">
+                    <span class="emoji">📦</span>
+                    <span class="text">I keep running out</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('no-time')">
+                    <span class="emoji">⏰</span>
+                    <span class="text">I don't have enough time</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('bored')">
+                    <span class="emoji">😴</span>
+                    <span class="text">I'm bored or burned out</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('competition')">
+                    <span class="emoji">🏃</span>
+                    <span class="text">Someone else sells the same thing</span>
+                </button>
+                <button class="problem-btn" onclick="showSolution('bad-feedback')">
+                    <span class="emoji">👎</span>
+                    <span class="text">I got negative feedback</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Solution: Not Selling -->
+        <div class="solution-section" id="solution-not-selling">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">😢</span>
+                    <h3>Not Selling Anything</h3>
+                </div>
+
+                <div class="diagnosis-section">
+                    <h4>🔍 Common Causes:</h4>
+                    <ul>
+                        <li>Not enough people know about your product</li>
+                        <li>Selling in the wrong place or at the wrong time</li>
+                        <li>Product doesn't look appealing</li>
+                        <li>Price might be too high (or too low!)</li>
+                        <li>Not explaining the product well</li>
+                    </ul>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>📢 Get the Word Out</h5>
+                        <p>More people need to know you exist! You can't sell if nobody knows about you.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Tell EVERYONE you know - family, friends, neighbors</li>
+                                <li>Ask parents to share on their social media</li>
+                                <li>Make simple flyers and post in allowed spots</li>
+                                <li>Offer free samples to get people talking</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>📍 Change Your Location</h5>
+                        <p>You might be trying to sell in a spot where your customers aren't.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Think about where YOUR customers hang out</li>
+                                <li>Try a different day or time</li>
+                                <li>Consider a farmers market or school event</li>
+                                <li>Sell online through parents' social media</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>✨ Improve Your Presentation</h5>
+                        <p>People buy with their eyes first! Make your product look amazing.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Upgrade your packaging (it doesn't have to be expensive)</li>
+                                <li>Take better photos with good lighting</li>
+                                <li>Create a nice display for in-person sales</li>
+                                <li>Add labels or tags to look more professional</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>💪 Remember:</h4>
+                    <p>Every successful business had slow days! Try ONE new thing at a time so you can see what works. Give each change at least a week or two before trying something else.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: Too Expensive -->
+        <div class="solution-section" id="solution-too-expensive">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">💸</span>
+                    <h3>People Say It's Too Expensive</h3>
+                </div>
+
+                <div class="diagnosis-section">
+                    <h4>🔍 First, Ask Yourself:</h4>
+                    <ul>
+                        <li>IS your price actually too high? (Check competitors)</li>
+                        <li>Are you selling to the WRONG audience?</li>
+                        <li>Do customers understand WHY it's worth the price?</li>
+                        <li>Are they just trying to negotiate?</li>
+                    </ul>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>🎯 Find the RIGHT Customers</h5>
+                        <p>Not everyone is your customer! Some people will never pay for quality - find those who will.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Sell at places where people spend more (farmers markets, boutiques)</li>
+                                <li>Target people who already buy similar products</li>
+                                <li>Don't waste time on price-complainers</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>💎 Show Your Value</h5>
+                        <p>Help people understand WHY your product is worth it!</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Explain what makes your product special (handmade, organic, local)</li>
+                                <li>Share the time and love that goes into making it</li>
+                                <li>Compare to store prices for similar quality</li>
+                                <li>Let them taste/try samples</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>📦 Offer Options</h5>
+                        <p>Give people choices at different price points.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Create a smaller/cheaper option</li>
+                                <li>Bundle items for better value ("3 for $15")</li>
+                                <li>Offer a "budget" line alongside premium</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>⚠️ Don't Just Lower Your Price!</h4>
+                    <p>If your price is based on real costs, lowering it means losing money. It's better to find customers who value quality than to race to the bottom!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: No Profit -->
+        <div class="solution-section" id="solution-no-profit">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">📉</span>
+                    <h3>Not Making Profit</h3>
+                </div>
+
+                <div class="diagnosis-section">
+                    <h4>🔍 Common Causes:</h4>
+                    <ul>
+                        <li>Price is too low for your costs</li>
+                        <li>Hidden costs you're not counting</li>
+                        <li>Not counting your time as a cost</li>
+                        <li>Giving too many discounts or freebies</li>
+                        <li>Supply costs went up but price didn't</li>
+                    </ul>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>🧮 Recalculate Everything</h5>
+                        <p>Go back to basics and add up ALL your costs.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Use our Pricing Calculator to recalculate</li>
+                                <li>Include ALL supplies (even small things!)</li>
+                                <li>Add your time at $10-15/hour minimum</li>
+                                <li>Count packaging, labels, bags</li>
+                                <li>Add any selling fees or booth costs</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>📈 Raise Your Prices</h5>
+                        <p>Yes, it can feel scary, but it's often necessary!</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Calculate what price you NEED to profit</li>
+                                <li>Raise prices gradually if needed</li>
+                                <li>Improve packaging when raising prices</li>
+                                <li>Announce it positively: "New premium packaging!"</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>✂️ Cut Costs</h5>
+                        <p>Find ways to make things cheaper without losing quality.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Buy supplies in bulk when possible</li>
+                                <li>Find cheaper supply sources</li>
+                                <li>Reduce packaging costs (but keep it nice!)</li>
+                                <li>Make larger batches to save time</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>📊 The Rule of 2x:</h4>
+                    <p>Your selling price should be AT LEAST 2x your total costs (including your time). If you're below that, you're working for free or losing money!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: Running Out -->
+        <div class="solution-section" id="solution-running-out">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">📦</span>
+                    <h3>Keep Running Out of Product</h3>
+                </div>
+
+                <div class="diagnosis-section">
+                    <h4>🔍 This is Actually GOOD News!</h4>
+                    <ul>
+                        <li>It means people want what you're selling!</li>
+                        <li>You might be able to sell even more</li>
+                        <li>You just need better planning</li>
+                    </ul>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>📋 Track Your Sales</h5>
+                        <p>Know how much you're selling so you can plan ahead.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Write down how much you sell each time</li>
+                                <li>Notice patterns (busy days, slow days)</li>
+                                <li>Plan to make more than you think you need</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🗓️ Make a Production Schedule</h5>
+                        <p>Plan when you'll make products each week.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Set specific days/times to make products</li>
+                                <li>Make in bigger batches</li>
+                                <li>Stock up before busy times (holidays!)</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>💰 Consider Raising Prices</h5>
+                        <p>If you can't keep up with demand, your price might be too low!</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Higher prices = same money with less work</li>
+                                <li>Test a small price increase</li>
+                                <li>If everything still sells, you priced it right!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>✨ Pro Move:</h4>
+                    <p>Take pre-orders! Let customers order in advance so you know exactly how much to make. This is how real businesses handle high demand!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: No Time -->
+        <div class="solution-section" id="solution-no-time">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">⏰</span>
+                    <h3>Not Enough Time</h3>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>📆 Schedule Business Time</h5>
+                        <p>Block out specific times just for your business.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Pick 2-3 set times per week for your business</li>
+                                <li>Put it on your calendar like homework</li>
+                                <li>Protect that time - no excuses!</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>⚡ Work More Efficiently</h5>
+                        <p>Get more done in less time.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Make bigger batches at once</li>
+                                <li>Prep ingredients/supplies in advance</li>
+                                <li>Create an assembly line process</li>
+                                <li>Do similar tasks together</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🎯 Sell Less, Earn Same</h5>
+                        <p>Raise prices so you make the same money with fewer items.</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Raise your prices by 20-30%</li>
+                                <li>You'll sell fewer but earn similar profit</li>
+                                <li>More time for school and fun!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>🎒 Remember:</h4>
+                    <p>School comes first! A successful business is one that fits your life, not takes it over. It's okay to scale back during busy school times and ramp up during breaks.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: Bored -->
+        <div class="solution-section" id="solution-bored">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">😴</span>
+                    <h3>Bored or Burned Out</h3>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>🌈 Add Something New</h5>
+                        <p>Create a new product variation or flavor to get excited again!</p>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>😴 Take a Break</h5>
+                        <p>It's okay to pause! Take a week or two off to recharge.</p>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🔄 Pivot to Something New</h5>
+                        <p>Maybe this product isn't right for you anymore. Try something different!</p>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🎯 Set a Fun Goal</h5>
+                        <p>Give yourself something exciting to work toward - a money goal, a new product launch, etc.</p>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>💚 Self-Care First:</h4>
+                    <p>Burnout is real! If you're not having fun anymore, take a break. The best businesses are run by happy entrepreneurs!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: Competition -->
+        <div class="solution-section" id="solution-competition">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">🏃</span>
+                    <h3>Dealing with Competition</h3>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>✨ Differentiate Yourself</h5>
+                        <p>Make YOUR product unique and special!</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Add a unique flavor, color, or feature</li>
+                                <li>Better packaging or presentation</li>
+                                <li>Tell YOUR story - people buy from people!</li>
+                                <li>Offer something they don't (customization, etc.)</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🎯 Find Your Niche</h5>
+                        <p>Don't compete head-to-head - carve out your own space.</p>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🤝 Collaborate, Don't Compete</h5>
+                        <p>Maybe you can work together or refer customers to each other!</p>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>📈 Competition = Validation:</h4>
+                    <p>If others are selling the same thing, it means there's a real market! Focus on being the BEST version, not the only option.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution: Bad Feedback -->
+        <div class="solution-section" id="solution-bad-feedback">
+            <button class="back-to-problems" onclick="backToProblems()">← Back to Problems</button>
+            
+            <div class="solution-card">
+                <div class="solution-header">
+                    <span class="emoji">👎</span>
+                    <h3>Handling Negative Feedback</h3>
+                </div>
+
+                <div class="solutions-list">
+                    <h4>💡 Solutions to Try:</h4>
+
+                    <div class="solution-item">
+                        <h5>👂 Listen and Learn</h5>
+                        <p>Bad feedback hurts, but it can help you improve!</p>
+                        <div class="action-steps">
+                            <h6>ACTION STEPS:</h6>
+                            <ol>
+                                <li>Take a deep breath - don't react right away</li>
+                                <li>Is there truth in the feedback?</li>
+                                <li>What can you do differently?</li>
+                                <li>Thank them for helping you improve</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>🔧 Fix the Problem</h5>
+                        <p>If it's a real issue, make it right!</p>
+                    </div>
+
+                    <div class="solution-item">
+                        <h5>💪 Don't Take It Personally</h5>
+                        <p>Sometimes people are just having a bad day. One negative doesn't define you!</p>
+                    </div>
+                </div>
+
+                <div class="quick-tip">
+                    <h4>⭐ Perspective:</h4>
+                    <p>Even the best businesses get complaints. What matters is how you handle them! A problem solved well can turn an unhappy customer into your biggest fan.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function showSolution(problemId) {
+            // Hide all solutions
+            document.querySelectorAll('.solution-section').forEach(s => s.classList.remove('show'));
+            
+            // Show selected solution
+            const solution = document.getElementById('solution-' + problemId);
+            if (solution) {
+                solution.classList.add('show');
+                document.getElementById('problemSelector').style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function backToProblems() {
+            document.querySelectorAll('.solution-section').forEach(s => s.classList.remove('show'));
+            document.getElementById('problemSelector').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

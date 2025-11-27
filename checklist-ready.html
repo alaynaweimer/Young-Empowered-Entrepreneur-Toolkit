@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Am I Ready? Checklist | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Score Display */
+        .score-card {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        .score-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--primary-gold);
+        }
+
+        .score-circle .number {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-circle .label {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .score-message {
+            flex: 1;
+            text-align: left;
+        }
+
+        .score-message .status {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .score-message .desc {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Category Sections */
+        .category-section {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--cream);
+        }
+
+        .category-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--soft-gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .category-title {
+            flex: 1;
+        }
+
+        .category-title h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+        }
+
+        .category-title .progress-text {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* Checklist Items */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid #F0F0F0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:last-child { border-bottom: none; }
+
+        .checklist-item:hover { background: #FAFAFA; margin: 0 -12px; padding-left: 12px; padding-right: 12px; border-radius: 10px; }
+
+        .checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #DDD;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            font-size: 16px;
+            color: white;
+        }
+
+        .checklist-item.checked .checkbox {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: '✓';
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .item-hint {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .checklist-item.checked .item-text {
+            color: var(--success);
+        }
+
+        /* Importance Badge */
+        .importance {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .importance.must { background: #FFEBEE; color: var(--danger); }
+        .importance.should { background: #FFF8E1; color: var(--warning); }
+        .importance.nice { background: #E8F5E9; color: var(--success); }
+
+        /* Results Banner */
+        .results-banner {
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .results-banner.ready {
+            background: linear-gradient(135deg, #27AE60, #2ECC71);
+            color: white;
+        }
+
+        .results-banner.almost {
+            background: linear-gradient(135deg, #F39C12, #F1C40F);
+            color: white;
+        }
+
+        .results-banner.not-yet {
+            background: linear-gradient(135deg, #E74C3C, #C0392B);
+            color: white;
+        }
+
+        .results-banner h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .results-banner p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        /* Missing Items */
+        .missing-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .missing-section.show { display: block; }
+
+        .missing-section h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            color: var(--danger);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .missing-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #F0F0F0;
+            font-size: 14px;
+        }
+
+        .missing-item:last-child { border-bottom: none; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .btn-primary { background: var(--primary-gold); color: white; }
+        .btn-primary:hover { background: #D49A38; }
+        .btn-secondary { background: var(--primary-teal); color: white; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        @media (max-width: 500px) {
+            .score-display { flex-direction: column; }
+            .score-message { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>✅ Am I Ready?</h1>
+                <p>Check if you're ready to start selling!</p>
+            </div>
+        </div>
+
+        <!-- Score Card -->
+        <div class="score-card">
+            <h2>Your Readiness Score</h2>
+            <div class="score-display">
+                <div class="score-circle">
+                    <span class="number" id="scoreNumber">0</span>
+                    <span class="label">of 20</span>
+                </div>
+                <div class="score-message">
+                    <div class="status" id="scoreStatus">Getting Started</div>
+                    <div class="desc" id="scoreDesc">Check off items below as you complete them!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Ready -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">📦</div>
+                <div class="category-title">
+                    <h3>Product Ready</h3>
+                    <span class="progress-text" id="cat1Progress">0 of 5 complete</span>
+                </div>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I know exactly what I'm selling</div>
+                    <div class="item-hint">You have a clear product or service in mind</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I've made/done it successfully before</div>
+                    <div class="item-hint">You've practiced and your product turns out well</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">Someone else has tried it and liked it</div>
+                    <div class="item-hint">Family or friends gave honest positive feedback</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I can make consistent quality</div>
+                    <div class="item-hint">Each item I make is as good as the last</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="nice" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have photos of my product</div>
+                    <div class="item-hint">Good pictures to show customers</div>
+                </div>
+                <span class="importance nice">NICE</span>
+            </div>
+        </div>
+
+        <!-- Money Ready -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">💰</div>
+                <div class="category-title">
+                    <h3>Money Ready</h3>
+                    <span class="progress-text" id="cat2Progress">0 of 5 complete</span>
+                </div>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I know how much it costs to make</div>
+                    <div class="item-hint">You've added up all your supply costs</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have a price that makes profit</div>
+                    <div class="item-hint">Your price is at least 2x your costs</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I've checked competitor prices</div>
+                    <div class="item-hint">You know what similar products sell for</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have money to buy first supplies</div>
+                    <div class="item-hint">Savings or parent loan for startup costs</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="nice" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have a way to accept payment</div>
+                    <div class="item-hint">Cash, Venmo (with parent), etc.</div>
+                </div>
+                <span class="importance nice">NICE</span>
+            </div>
+        </div>
+
+        <!-- Supplies Ready -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">🛒</div>
+                <div class="category-title">
+                    <h3>Supplies Ready</h3>
+                    <span class="progress-text" id="cat3Progress">0 of 4 complete</span>
+                </div>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have supplies to make first batch</div>
+                    <div class="item-hint">All materials/ingredients ready to go</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have packaging ready</div>
+                    <div class="item-hint">Bags, boxes, labels, or containers</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I know where to buy more supplies</div>
+                    <div class="item-hint">You can restock when needed</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="nice" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have business cards or flyers</div>
+                    <div class="item-hint">Something to give customers</div>
+                </div>
+                <span class="importance nice">NICE</span>
+            </div>
+        </div>
+
+        <!-- Sales Ready -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">🎯</div>
+                <div class="category-title">
+                    <h3>Sales Ready</h3>
+                    <span class="progress-text" id="cat4Progress">0 of 4 complete</span>
+                </div>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="must" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I know WHERE I'll sell</div>
+                    <div class="item-hint">Neighbors, market, school, online, etc.</div>
+                </div>
+                <span class="importance must">MUST</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I can explain my product well</div>
+                    <div class="item-hint">Your "elevator pitch" is ready</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">My parents know and support my plan</div>
+                    <div class="item-hint">They're on board to help when needed</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="nice" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I have my first customer lined up</div>
+                    <div class="item-hint">Someone ready to buy when you're ready</div>
+                </div>
+                <span class="importance nice">NICE</span>
+            </div>
+        </div>
+
+        <!-- Mindset Ready -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">💪</div>
+                <div class="category-title">
+                    <h3>Mindset Ready</h3>
+                    <span class="progress-text" id="cat5Progress">0 of 2 complete</span>
+                </div>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I'm okay if some things don't sell</div>
+                    <div class="item-hint">Not every product is a hit - that's okay!</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+
+            <div class="checklist-item" data-points="1" data-importance="should" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-content">
+                    <div class="item-text">I'm excited to learn and improve!</div>
+                    <div class="item-hint">Growth mindset is key to success</div>
+                </div>
+                <span class="importance should">SHOULD</span>
+            </div>
+        </div>
+
+        <!-- Results Banner -->
+        <div class="results-banner not-yet" id="resultsBanner">
+            <h3 id="resultsTitle">🚀 Keep Going!</h3>
+            <p id="resultsText">Complete the checklist items above to see your readiness!</p>
+        </div>
+
+        <!-- Missing Must-Haves -->
+        <div class="missing-section" id="missingSection">
+            <h3>⚠️ Don't Forget These Must-Haves:</h3>
+            <div id="missingList"></div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="resetChecklist()">🔄 Reset Checklist</button>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+            loadSavedProgress();
+            updateScore();
+        });
+
+        function toggleItem(item) {
+            item.classList.toggle('checked');
+            saveProgress();
+            updateScore();
+        }
+
+        function updateScore() {
+            const allItems = document.querySelectorAll('.checklist-item');
+            const checkedItems = document.querySelectorAll('.checklist-item.checked');
+            const total = allItems.length;
+            const checked = checkedItems.length;
+
+            // Update score display
+            document.getElementById('scoreNumber').textContent = checked;
+
+            // Update category progress
+            updateCategoryProgress('cat1Progress', '.category-section:nth-child(2)');
+            updateCategoryProgress('cat2Progress', '.category-section:nth-child(3)');
+            updateCategoryProgress('cat3Progress', '.category-section:nth-child(4)');
+            updateCategoryProgress('cat4Progress', '.category-section:nth-child(5)');
+            updateCategoryProgress('cat5Progress', '.category-section:nth-child(6)');
+
+            // Check must-haves
+            const mustItems = document.querySelectorAll('.checklist-item[data-importance="must"]');
+            const checkedMusts = document.querySelectorAll('.checklist-item.checked[data-importance="must"]');
+            const allMustsComplete = mustItems.length === checkedMusts.length;
+
+            // Missing must-haves
+            const missingMusts = [];
+            mustItems.forEach(item => {
+                if (!item.classList.contains('checked')) {
+                    missingMusts.push(item.querySelector('.item-text').textContent);
+                }
+            });
+
+            // Update missing section
+            const missingSection = document.getElementById('missingSection');
+            if (missingMusts.length > 0) {
+                missingSection.classList.add('show');
+                document.getElementById('missingList').innerHTML = missingMusts.map(text => 
+                    `<div class="missing-item">❌ ${text}</div>`
+                ).join('');
+            } else {
+                missingSection.classList.remove('show');
+            }
+
+            // Update results banner
+            const banner = document.getElementById('resultsBanner');
+            const title = document.getElementById('resultsTitle');
+            const text = document.getElementById('resultsText');
+            const status = document.getElementById('scoreStatus');
+            const desc = document.getElementById('scoreDesc');
+
+            if (checked >= 18 && allMustsComplete) {
+                banner.className = 'results-banner ready';
+                title.textContent = '🎉 You\'re READY!';
+                text.textContent = 'Congratulations! You have everything in place to start selling. Go make your first sale!';
+                status.textContent = '🚀 Launch Ready!';
+                desc.textContent = 'You\'ve got this! Time to start selling!';
+            } else if (checked >= 12 && checkedMusts.length >= 6) {
+                banner.className = 'results-banner almost';
+                title.textContent = '🌟 Almost There!';
+                text.textContent = 'You\'re making great progress! Complete the remaining must-haves and you\'ll be ready.';
+                status.textContent = '⭐ Almost Ready';
+                desc.textContent = 'Just a few more things to check off!';
+            } else if (checked >= 5) {
+                banner.className = 'results-banner not-yet';
+                title.textContent = '📝 Keep Going!';
+                text.textContent = 'You\'ve started preparing. Focus on the MUST items first!';
+                status.textContent = '🔄 In Progress';
+                desc.textContent = 'Focus on the must-haves first!';
+            } else {
+                banner.className = 'results-banner not-yet';
+                title.textContent = '🚀 Let\'s Get Started!';
+                text.textContent = 'Check off items as you complete them. Start with the MUST items!';
+                status.textContent = '📋 Getting Started';
+                desc.textContent = 'Check off items as you go!';
+            }
+        }
+
+        function updateCategoryProgress(elementId, sectionSelector) {
+            const section = document.querySelector(sectionSelector);
+            const total = section.querySelectorAll('.checklist-item').length;
+            const checked = section.querySelectorAll('.checklist-item.checked').length;
+            document.getElementById(elementId).textContent = `${checked} of ${total} complete`;
+        }
+
+        function saveProgress() {
+            const checked = [];
+            document.querySelectorAll('.checklist-item.checked').forEach((item, index) => {
+                checked.push(Array.from(document.querySelectorAll('.checklist-item')).indexOf(item));
+            });
+            localStorage.setItem('yeeReadinessChecklist', JSON.stringify(checked));
+        }
+
+        function loadSavedProgress() {
+            const saved = localStorage.getItem('yeeReadinessChecklist');
+            if (saved) {
+                const checked = JSON.parse(saved);
+                const allItems = document.querySelectorAll('.checklist-item');
+                checked.forEach(index => {
+                    if (allItems[index]) {
+                        allItems[index].classList.add('checked');
+                    }
+                });
+            }
+        }
+
+        function resetChecklist() {
+            if (confirm('Reset all checklist items?')) {
+                document.querySelectorAll('.checklist-item').forEach(item => {
+                    item.classList.remove('checked');
+                });
+                localStorage.removeItem('yeeReadinessChecklist');
+                updateScore();
+            }
+        }
+    </script>
+</body>
+</html>

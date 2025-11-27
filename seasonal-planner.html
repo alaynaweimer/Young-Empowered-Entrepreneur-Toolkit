@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal Sales Planner | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Current Month Highlight */
+        .current-month-banner {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .current-month-banner h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .current-month-banner p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Season Tabs */
+        .season-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .season-tab {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #E8E8E8;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .season-tab:hover { border-color: var(--light-teal); }
+        .season-tab.active {
+            background: var(--primary-gold);
+            color: white;
+            border-color: var(--primary-gold);
+        }
+
+        /* Month Cards */
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .month-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary-gold);
+        }
+
+        .month-card.current {
+            border-top-color: var(--light-teal);
+            box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .month-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .month-card .current-badge {
+            background: var(--light-teal);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .month-card .hot-items {
+            margin-bottom: 14px;
+        }
+
+        .month-card .hot-items h4 {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .hot-item {
+            display: inline-block;
+            background: var(--soft-gold);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary-teal);
+            margin: 3px;
+        }
+
+        .month-card .events {
+            padding-top: 12px;
+            border-top: 1px solid #E8E8E8;
+        }
+
+        .month-card .events h4 {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .event-item {
+            font-size: 13px;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .month-card .tips {
+            margin-top: 14px;
+            padding: 12px;
+            background: var(--cream);
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .month-card .tips strong {
+            color: var(--primary-teal);
+        }
+
+        /* Detailed View */
+        .detail-section {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            margin-top: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .detail-section h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .planning-tip {
+            background: var(--soft-gold);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .planning-tip h4 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary-teal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .planning-tip p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Year Overview */
+        .year-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .mini-month {
+            padding: 12px 8px;
+            background: var(--cream);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .mini-month:hover {
+            background: var(--soft-gold);
+        }
+
+        .mini-month.current {
+            background: var(--light-teal);
+            color: white;
+        }
+
+        .mini-month .name {
+            font-weight: 700;
+        }
+
+        .mini-month .rating {
+            margin-top: 4px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        @media (max-width: 600px) {
+            .year-overview { grid-template-columns: repeat(3, 1fr); }
+            .month-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>🗓️ Seasonal Sales Planner</h1>
+                <p>Know what sells best and when!</p>
+            </div>
+        </div>
+
+        <!-- Current Month Banner -->
+        <div class="current-month-banner" id="currentMonthBanner">
+            <h2>📅 Right Now: <span id="currentMonthName">Loading...</span></h2>
+            <p id="currentMonthTip">Loading tips...</p>
+        </div>
+
+        <!-- Season Tabs -->
+        <div class="season-tabs">
+            <button class="season-tab active" onclick="showSeason('all')">📆 All Year</button>
+            <button class="season-tab" onclick="showSeason('spring')">🌸 Spring</button>
+            <button class="season-tab" onclick="showSeason('summer')">☀️ Summer</button>
+            <button class="season-tab" onclick="showSeason('fall')">🍂 Fall</button>
+            <button class="season-tab" onclick="showSeason('winter')">❄️ Winter</button>
+        </div>
+
+        <!-- Year Mini Overview -->
+        <div class="detail-section">
+            <h2>📊 Sales Potential by Month</h2>
+            <p style="text-align: center; color: var(--text-light); font-size: 14px; margin-bottom: 16px;">
+                🔥 = Hot selling month | ⭐ = Good | 😐 = Slower
+            </p>
+            <div class="year-overview" id="yearOverview"></div>
+        </div>
+
+        <!-- Month Cards -->
+        <div class="month-grid" id="monthGrid"></div>
+
+        <!-- Planning Tips -->
+        <div class="detail-section">
+            <h2>💡 Smart Planning Tips</h2>
+
+            <div class="planning-tip">
+                <h4>⏰ Start Early!</h4>
+                <p>Plan to have products ready 2-4 weeks BEFORE the holiday or event. If you want to sell Valentine's treats, start making them in late January!</p>
+            </div>
+
+            <div class="planning-tip">
+                <h4>📦 Stock Up on Supplies</h4>
+                <p>Buy supplies when they're on sale. Stock up on holiday packaging right AFTER the holiday when it's 50-75% off for next year!</p>
+            </div>
+
+            <div class="planning-tip">
+                <h4>🎯 Pick Your Peaks</h4>
+                <p>You don't have to sell year-round! Many successful young entrepreneurs focus on 2-3 peak seasons and take breaks in between.</p>
+            </div>
+
+            <div class="planning-tip">
+                <h4>📝 Keep Notes</h4>
+                <p>Write down what sold well, what didn't, and what you'd do differently. This is GOLD for next year!</p>
+            </div>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Check auth
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+            initCalendar();
+        });
+
+        const monthData = [
+            {
+                name: "January",
+                emoji: "❄️",
+                season: "winter",
+                rating: "😐",
+                hotItems: ["New Year planners", "Winter crafts", "Hot cocoa kits"],
+                events: ["🎆 New Year", "📚 Back from break"],
+                tip: "Slower month - great time to plan your year and restock supplies!"
+            },
+            {
+                name: "February",
+                emoji: "💝",
+                season: "winter",
+                rating: "⭐",
+                hotItems: ["Valentine's treats", "Heart crafts", "Pet treats", "Cards"],
+                events: ["💕 Valentine's Day (14th)", "🐾 Love Your Pet Day"],
+                tip: "Start Valentine's prep in late January. Pet-themed items do great!"
+            },
+            {
+                name: "March",
+                emoji: "🍀",
+                season: "spring",
+                rating: "⭐",
+                hotItems: ["St. Patrick's crafts", "Spring decor", "Plant starts"],
+                events: ["☘️ St. Patrick's Day (17th)", "🌷 First day of Spring"],
+                tip: "Spring is coming! Start seeds now for plant sales in April/May."
+            },
+            {
+                name: "April",
+                emoji: "🐣",
+                season: "spring",
+                rating: "🔥",
+                hotItems: ["Easter treats", "Spring crafts", "Plants", "Pet treats"],
+                events: ["🐰 Easter", "🌍 Earth Day (22nd)"],
+                tip: "Easter is HUGE for baked goods and crafts. Don't miss it!"
+            },
+            {
+                name: "May",
+                emoji: "🌸",
+                season: "spring",
+                rating: "🔥",
+                hotItems: ["Mother's Day gifts", "Teacher gifts", "Graduation items", "Plants"],
+                events: ["💐 Mother's Day", "👩‍🏫 Teacher Appreciation", "🎓 Graduations"],
+                tip: "Triple opportunity month! Make gift sets for moms and teachers."
+            },
+            {
+                name: "June",
+                emoji: "☀️",
+                season: "summer",
+                rating: "⭐",
+                hotItems: ["Father's Day gifts", "Summer crafts", "Outdoor items", "Pet treats"],
+                events: ["👔 Father's Day", "🏫 School's out!", "☀️ Summer begins"],
+                tip: "Farmers markets are in full swing - great time to start selling there!"
+            },
+            {
+                name: "July",
+                emoji: "🎆",
+                season: "summer",
+                rating: "⭐",
+                hotItems: ["Patriotic items", "Lemonade/drinks", "Summer crafts", "Outdoor services"],
+                events: ["🇺🇸 4th of July", "🏖️ Peak summer"],
+                tip: "Hot weather = lemonade stands, car washes, yard work services!"
+            },
+            {
+                name: "August",
+                emoji: "📚",
+                season: "summer",
+                rating: "🔥",
+                hotItems: ["Back to school items", "Lunch box treats", "Organization items"],
+                events: ["🎒 Back to School", "📝 School supply shopping"],
+                tip: "Back-to-school is bigger than you think! Start prepping in mid-July."
+            },
+            {
+                name: "September",
+                emoji: "🍂",
+                season: "fall",
+                rating: "⭐",
+                hotItems: ["Fall crafts", "Pumpkin treats", "Cozy items"],
+                events: ["🍁 Fall begins", "📚 School routines"],
+                tip: "Start making Halloween inventory NOW! You'll need time."
+            },
+            {
+                name: "October",
+                emoji: "🎃",
+                season: "fall",
+                rating: "🔥",
+                hotItems: ["Halloween treats", "Spooky crafts", "Costume accessories", "Fall decor"],
+                events: ["🎃 Halloween (31st)", "👻 Fall festivals"],
+                tip: "One of the BEST months! Have products ready by early October."
+            },
+            {
+                name: "November",
+                emoji: "🦃",
+                season: "fall",
+                rating: "🔥",
+                hotItems: ["Thanksgiving items", "Holiday prep", "Gift items", "Baked goods"],
+                events: ["🦃 Thanksgiving", "🛍️ Black Friday", "🎄 Holiday shopping starts"],
+                tip: "Holiday shopping begins! Start promoting Christmas items now."
+            },
+            {
+                name: "December",
+                emoji: "🎄",
+                season: "winter",
+                rating: "🔥🔥",
+                hotItems: ["Holiday gifts", "Baked goods", "Ornaments", "Gift baskets", "Pet treats"],
+                events: ["🎄 Christmas", "🕎 Hanukkah", "🎁 Gift-giving season"],
+                tip: "THE BIGGEST MONTH! Have everything ready by Dec 1st. You'll be busy!"
+            }
+        ];
+
+        function initCalendar() {
+            const currentMonth = new Date().getMonth();
+            const currentMonthData = monthData[currentMonth];
+
+            // Update current month banner
+            document.getElementById('currentMonthName').textContent = currentMonthData.name;
+            document.getElementById('currentMonthTip').textContent = currentMonthData.tip;
+
+            // Build year overview
+            const yearOverview = document.getElementById('yearOverview');
+            yearOverview.innerHTML = monthData.map((month, index) => `
+                <div class="mini-month ${index === currentMonth ? 'current' : ''}" onclick="scrollToMonth(${index})">
+                    <div class="name">${month.name.substring(0, 3)}</div>
+                    <div class="rating">${month.rating}</div>
+                </div>
+            `).join('');
+
+            // Build month cards
+            showSeason('all');
+        }
+
+        function showSeason(season) {
+            // Update tabs
+            document.querySelectorAll('.season-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const currentMonth = new Date().getMonth();
+            const filtered = season === 'all' ? monthData : monthData.filter(m => m.season === season);
+
+            const monthGrid = document.getElementById('monthGrid');
+            monthGrid.innerHTML = filtered.map((month, index) => {
+                const realIndex = monthData.indexOf(month);
+                return `
+                <div class="month-card ${realIndex === currentMonth ? 'current' : ''}" id="month-${realIndex}">
+                    <h3>
+                        ${month.emoji} ${month.name}
+                        ${realIndex === currentMonth ? '<span class="current-badge">NOW</span>' : ''}
+                    </h3>
+                    <div class="hot-items">
+                        <h4>🔥 Hot Sellers:</h4>
+                        ${month.hotItems.map(item => `<span class="hot-item">${item}</span>`).join('')}
+                    </div>
+                    <div class="events">
+                        <h4>📅 Key Dates:</h4>
+                        ${month.events.map(event => `<div class="event-item">${event}</div>`).join('')}
+                    </div>
+                    <div class="tips">
+                        <strong>💡 Tip:</strong> ${month.tip}
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function scrollToMonth(index) {
+            const element = document.getElementById('month-' + index);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    </script>
+</body>
+</html>

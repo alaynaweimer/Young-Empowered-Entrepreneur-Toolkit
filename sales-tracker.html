@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Tracker | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card.large {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+        }
+
+        .stat-card .value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+
+        .stat-card.large .value {
+            font-size: 42px;
+            color: white;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .stat-card.large .label {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Quick Add */
+        .quick-add {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .quick-add h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E8E8E8;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+            height: 46px;
+        }
+
+        .btn-primary:hover { background: #D49A38; }
+
+        .btn-secondary {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary-teal);
+            color: var(--primary-teal);
+        }
+
+        /* Sales List */
+        .sales-section {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .sales-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sales-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            background: var(--cream);
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .sale-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            background: var(--cream);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .sale-date {
+            text-align: center;
+            min-width: 50px;
+        }
+
+        .sale-date .day {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            line-height: 1;
+        }
+
+        .sale-date .month {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .sale-info {
+            flex: 1;
+        }
+
+        .sale-info .product {
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+
+        .sale-info .qty {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .sale-amount {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .sale-delete {
+            background: none;
+            border: none;
+            color: #CCC;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px;
+        }
+
+        .sale-delete:hover {
+            color: #E74C3C;
+        }
+
+        .empty-sales {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-sales .emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        /* Actions */
+        .actions-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .actions-row .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-card.large { grid-column: span 2; }
+            .add-form {
+                grid-template-columns: 1fr 1fr;
+            }
+            .add-form .form-group:first-child {
+                grid-column: span 2;
+            }
+            .filter-btns { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>📒 Sales Tracker</h1>
+                <p>Track every sale and watch your business grow!</p>
+            </div>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card large">
+                <div class="value" id="totalRevenue">$0.00</div>
+                <div class="label">Total Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="totalSales">0</div>
+                <div class="label">Total Sales</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="totalItems">0</div>
+                <div class="label">Items Sold</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="avgSale">$0.00</div>
+                <div class="label">Avg Sale</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="thisWeek">$0.00</div>
+                <div class="label">This Week</div>
+            </div>
+        </div>
+
+        <!-- Quick Add Sale -->
+        <div class="quick-add">
+            <h2>💵 Add a Sale</h2>
+            <div class="add-form">
+                <div class="form-group">
+                    <label>What did you sell?</label>
+                    <input type="text" id="saleProduct" placeholder="e.g., Dog Treats (6-pack)">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="saleQty" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="saleAmount" placeholder="7.00" step="0.01" min="0">
+                </div>
+                <button class="btn btn-primary" onclick="addSale()">Add</button>
+            </div>
+        </div>
+
+        <!-- Sales List -->
+        <div class="sales-section">
+            <div class="sales-header">
+                <h2>📜 Recent Sales</h2>
+                <div class="filter-btns">
+                    <button class="filter-btn active" onclick="filterSales('all', this)">All</button>
+                    <button class="filter-btn" onclick="filterSales('week', this)">This Week</button>
+                    <button class="filter-btn" onclick="filterSales('month', this)">This Month</button>
+                </div>
+            </div>
+
+            <div id="salesList">
+                <div class="empty-sales">
+                    <div class="emoji">💰</div>
+                    <p>No sales yet! Add your first sale above.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-row">
+            <button class="btn btn-outline" onclick="exportSales()">📥 Export</button>
+            <button class="btn btn-outline" onclick="clearAllSales()">🗑️ Clear All</button>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let sales = [];
+        let currentFilter = 'all';
+
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+            loadSales();
+        });
+
+        function loadSales() {
+            const saved = localStorage.getItem('yeeSales');
+            if (saved) {
+                sales = JSON.parse(saved);
+            }
+            renderSales();
+            updateStats();
+        }
+
+        function saveSales() {
+            localStorage.setItem('yeeSales', JSON.stringify(sales));
+        }
+
+        function addSale() {
+            const product = document.getElementById('saleProduct').value.trim();
+            const qty = parseInt(document.getElementById('saleQty').value) || 1;
+            const amount = parseFloat(document.getElementById('saleAmount').value) || 0;
+
+            if (!product || amount <= 0) {
+                alert('Please enter what you sold and the amount!');
+                return;
+            }
+
+            const sale = {
+                id: Date.now(),
+                product,
+                qty,
+                amount,
+                date: new Date().toISOString()
+            };
+
+            sales.unshift(sale);
+            saveSales();
+            renderSales();
+            updateStats();
+
+            // Clear form
+            document.getElementById('saleProduct').value = '';
+            document.getElementById('saleQty').value = '1';
+            document.getElementById('saleAmount').value = '';
+
+            // Celebration!
+            showConfetti();
+        }
+
+        function showConfetti() {
+            // Simple celebration animation
+            const emoji = document.createElement('div');
+            emoji.textContent = '🎉';
+            emoji.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; animation: pop 0.5s ease; z-index: 1000;';
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 500);
+        }
+
+        function deleteSale(id) {
+            sales = sales.filter(s => s.id !== id);
+            saveSales();
+            renderSales();
+            updateStats();
+        }
+
+        function renderSales() {
+            const list = document.getElementById('salesList');
+            
+            let filtered = sales;
+            const now = new Date();
+            
+            if (currentFilter === 'week') {
+                const weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+                filtered = sales.filter(s => new Date(s.date) >= weekAgo);
+            } else if (currentFilter === 'month') {
+                const monthAgo = new Date(now.getFullYear(), now.getMonth(), 1);
+                filtered = sales.filter(s => new Date(s.date) >= monthAgo);
+            }
+
+            if (filtered.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-sales">
+                        <div class="emoji">💰</div>
+                        <p>${currentFilter === 'all' ? 'No sales yet! Add your first sale above.' : 'No sales in this period.'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            let html = '';
+            filtered.forEach(sale => {
+                const date = new Date(sale.date);
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                
+                html += `
+                    <div class="sale-item">
+                        <div class="sale-date">
+                            <div class="day">${day}</div>
+                            <div class="month">${month}</div>
+                        </div>
+                        <div class="sale-info">
+                            <div class="product">${sale.product}</div>
+                            <div class="qty">Qty: ${sale.qty}</div>
+                        </div>
+                        <div class="sale-amount">$${sale.amount.toFixed(2)}</div>
+                        <button class="sale-delete" onclick="deleteSale(${sale.id})">×</button>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+
+            const totalRevenue = sales.reduce((sum, s) => sum + s.amount, 0);
+            const totalItems = sales.reduce((sum, s) => sum + s.qty, 0);
+            const avgSale = sales.length > 0 ? totalRevenue / sales.length : 0;
+            const thisWeek = sales
+                .filter(s => new Date(s.date) >= weekAgo)
+                .reduce((sum, s) => sum + s.amount, 0);
+
+            document.getElementById('totalRevenue').textContent = '$' + totalRevenue.toFixed(2);
+            document.getElementById('totalSales').textContent = sales.length;
+            document.getElementById('totalItems').textContent = totalItems;
+            document.getElementById('avgSale').textContent = '$' + avgSale.toFixed(2);
+            document.getElementById('thisWeek').textContent = '$' + thisWeek.toFixed(2);
+        }
+
+        function filterSales(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderSales();
+        }
+
+        function exportSales() {
+            if (sales.length === 0) {
+                alert('No sales to export!');
+                return;
+            }
+
+            let csv = 'Date,Product,Quantity,Amount\n';
+            sales.forEach(s => {
+                const date = new Date(s.date).toLocaleDateString();
+                csv += `"${date}","${s.product}",${s.qty},${s.amount.toFixed(2)}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my-sales.csv';
+            a.click();
+        }
+
+        function clearAllSales() {
+            if (confirm('Delete ALL sales history? This cannot be undone.')) {
+                sales = [];
+                saveSales();
+                renderSales();
+                updateStats();
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes pop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+    </style>
+</body>
+</html>

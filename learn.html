@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Center | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --white: #FFFFFF;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Age Badge */
+        .age-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--soft-gold);
+            color: var(--primary-teal);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        /* Key Point Box */
+        .key-point {
+            background: var(--soft-gold);
+            border-left: 4px solid var(--primary-gold);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .key-point strong {
+            color: var(--primary-teal);
+        }
+
+        /* Vocabulary */
+        .vocab-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .vocab-item {
+            background: var(--cream);
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .vocab-term {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 17px;
+            color: var(--primary-teal);
+            margin-bottom: 6px;
+        }
+
+        .vocab-definition {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .vocab-example {
+            font-size: 13px;
+            color: var(--text-light);
+            font-style: italic;
+            background: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+        }
+
+        /* Markup Table */
+        .markup-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        .markup-table th {
+            background: var(--primary-teal);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .markup-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .markup-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .markup-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #E8E8E8;
+        }
+
+        .markup-table tr:nth-child(even) {
+            background: var(--cream);
+        }
+
+        .markup-table tr.highlight {
+            background: var(--soft-gold);
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding: 14px 16px 14px 48px;
+            background: var(--cream);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            font-size: 18px;
+            color: var(--primary-teal);
+        }
+
+        /* Tips Grid */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, var(--light-teal) 0%, var(--primary-teal) 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+        }
+
+        .tip-card .tip-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .tip-card .tip-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .tip-card .tip-text {
+            font-size: 13px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        /* Warning/Success Boxes */
+        .warning-box {
+            background: #FFF3CD;
+            border: 2px solid #F5A623;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 16px 0;
+        }
+
+        .warning-box strong {
+            color: #856404;
+        }
+
+        .success-box {
+            background: #D4EDDA;
+            border: 2px solid var(--light-teal);
+            border-radius: 14px;
+            padding: 18px;
+            margin: 16px 0;
+        }
+
+        .success-box strong {
+            color: #155724;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .formula-box .label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .formula-box .formula {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            background: rgba(255,255,255,0.15);
+            padding: 16px;
+            border-radius: 10px;
+            margin: 12px 0;
+        }
+
+        /* Accordion */
+        .accordion {
+            margin: 16px 0;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 2px solid #E8E8E8;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--primary-teal);
+        }
+
+        .accordion-header:hover {
+            background: var(--cream);
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 22px;
+            color: var(--primary-gold);
+        }
+
+        .accordion-item.open .accordion-header::after {
+            content: '−';
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 20px 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .accordion-item.open .accordion-content {
+            display: block;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #E09A30 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-card .stat-label {
+            font-size: 12px;
+            opacity: 0.95;
+        }
+
+        /* Navigation */
+        .section-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            background: white;
+            border: 2px solid var(--primary-teal);
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-teal);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--primary-teal);
+            text-decoration: none;
+        }
+
+        footer .brand {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        /* Age-specific content visibility */
+        .age-8-10, .age-11-13, .age-14-18 {
+            display: none;
+        }
+
+        body.age-8-10 .age-8-10,
+        body.age-11-13 .age-11-13,
+        body.age-14-18 .age-14-18,
+        body.no-age .age-11-13 {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>📚 Learn Center</h1>
+                <p>Everything you need to know about running a business!</p>
+            </div>
+        </div>
+
+        <div class="age-badge" id="ageBadge">📍 Content for: All Ages</div>
+
+        <!-- Quick Reference Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-value">2x</div>
+                <div class="stat-label">Recommended Markup</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">50%</div>
+                <div class="stat-label">Target Profit Margin</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">30%+</div>
+                <div class="stat-label">Healthy Profit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$10-15</div>
+                <div class="stat-label">Hourly Rate Start</div>
+            </div>
+        </div>
+
+        <!-- Section Navigation -->
+        <div class="section-nav">
+            <button class="nav-btn active" onclick="scrollToSection('basics')">📖 Basics</button>
+            <button class="nav-btn" onclick="scrollToSection('vocabulary')">📝 Vocabulary</button>
+            <button class="nav-btn" onclick="scrollToSection('markups')">📊 Markups</button>
+            <button class="nav-btn" onclick="scrollToSection('considerations')">🤔 Things to Consider</button>
+            <button class="nav-btn" onclick="scrollToSection('mistakes')">🚫 Mistakes</button>
+            <button class="nav-btn" onclick="scrollToSection('tips')">💡 Tips</button>
+        </div>
+
+        <!-- Section: What is Pricing? -->
+        <div class="section-card" id="basics">
+            <h2>🎯 What is Pricing & Why Does It Matter?</h2>
+            
+            <div class="age-8-10">
+                <p>Pricing is picking how much money to ask for when you sell something you made. It's super important because you want to make sure you get MORE money back than you spent making it!</p>
+                <div class="key-point">
+                    <strong>🌟 The Big Rule:</strong> Always charge MORE than what you spent. If you spent $3 making something, you need to sell it for more than $3!
+                </div>
+                <p>Think of it like this: If you use $5 of ingredients to make cookies and sell them for $4, you LOSE $1. That's like giving away your allowance! 😱</p>
+            </div>
+
+            <div class="age-11-13">
+                <p>Pricing is deciding how much money to charge for your product. It's one of the MOST important decisions you'll make as a business owner!</p>
+                <div class="key-point">
+                    <strong>The Golden Rule:</strong> Your price must be HIGH enough to cover all your costs AND leave you with profit. Price too low = lose money. Price too high = no one buys!
+                </div>
+                <p>Here's the scary truth: If it costs you $5 to make something and you sell it for $4, you LOSE $1 every time someone buys. The more you sell, the more money you lose! 😱</p>
+            </div>
+
+            <div class="age-14-18">
+                <p>Pricing strategy is the process of determining the optimal price point for your products or services. It directly impacts your profitability, market positioning, and long-term business sustainability.</p>
+                <div class="key-point">
+                    <strong>The Fundamental Principle:</strong> Your price must cover all direct costs (materials, labor, packaging), indirect costs (overhead, fees, marketing), AND generate profit for reinvestment and personal income.
+                </div>
+                <p>Understanding the relationship between price, volume, and profit margin is essential. A low price with high volume can work, but only if your margins remain positive. Most handmade businesses succeed with higher prices and moderate volume.</p>
+            </div>
+        </div>
+
+        <!-- Section: The Formula -->
+        <div class="section-card">
+            <h2>🧮 The Pricing Formula</h2>
+
+            <div class="formula-box">
+                <div class="label">THE BASIC FORMULA</div>
+                <div class="formula">
+                    (Materials + Labor + Packaging + Overhead) × Markup = Your Price
+                </div>
+            </div>
+
+            <div class="age-8-10">
+                <p><strong>What does this mean?</strong></p>
+                <p>📦 <strong>Materials:</strong> The stuff you buy to make your thing (ingredients, beads, paper)</p>
+                <p>⏰ <strong>Labor:</strong> Pay for YOUR time! You worked hard!</p>
+                <p>🎁 <strong>Packaging:</strong> Bags, boxes, ribbons, tags</p>
+                <p>📈 <strong>Markup:</strong> Extra money so you can make a profit</p>
+            </div>
+
+            <div class="age-11-13">
+                <p><strong>Let's break it down:</strong></p>
+                <p>📦 <strong>Materials:</strong> Everything you buy to make the product (ingredients, fabric, beads, etc.)</p>
+                <p>⏰ <strong>Labor:</strong> Your time matters! Calculate: (minutes to make ÷ 60) × your hourly rate</p>
+                <p>🎁 <strong>Packaging:</strong> Bags, boxes, labels, ribbon, tags, etc.</p>
+                <p>🏢 <strong>Overhead:</strong> Tools, equipment, selling fees, marketing (usually add 10-15%)</p>
+                <p>📈 <strong>Markup:</strong> The multiplier that gives you profit (usually 2x or more)</p>
+            </div>
+
+            <div class="age-14-18">
+                <p><strong>Component Breakdown:</strong></p>
+                <p>📦 <strong>Cost of Goods Sold (COGS):</strong> Direct materials and supplies required for production</p>
+                <p>⏰ <strong>Labor Cost:</strong> (Production time in hours) × (Hourly rate). Don't undervalue yourself—$15-25/hour is reasonable for skilled work</p>
+                <p>🎁 <strong>Packaging & Presentation:</strong> All materials for customer-ready products including bags, labels, boxes, inserts</p>
+                <p>🏢 <strong>Overhead Allocation:</strong> Utilities, equipment depreciation, workspace costs, insurance, platform fees (typically 10-20% of base cost)</p>
+                <p>📈 <strong>Markup Multiplier:</strong> Applied to total cost to ensure profitability and allow for wholesale pricing (typically 2-3x for handmade goods)</p>
+            </div>
+        </div>
+
+        <!-- Section: Vocabulary -->
+        <div class="section-card" id="vocabulary">
+            <h2>📖 Business Words You Need to Know</h2>
+
+            <div class="vocab-list">
+                <div class="vocab-item">
+                    <div class="vocab-term">Cost of Goods Sold (COGS)</div>
+                    <div class="vocab-definition">The total cost of materials and supplies needed to make your product.</div>
+                    <div class="vocab-example">💡 Example: Flour + eggs + peanut butter for dog treats = $16.27</div>
+                </div>
+
+                <div class="vocab-item">
+                    <div class="vocab-term">Markup</div>
+                    <div class="vocab-definition">The extra amount you add on top of your costs. Usually shown as a percentage or multiplier.</div>
+                    <div class="vocab-example">💡 Example: A 100% markup (or 2x) means you double your cost. If it costs $5, you sell for $10.</div>
+                </div>
+
+                <div class="vocab-item">
+                    <div class="vocab-term">Profit</div>
+                    <div class="vocab-definition">The money left over AFTER you pay for all your costs. This is YOUR money to keep!</div>
+                    <div class="vocab-example">💡 Example: Sell for $10, costs $5 = $5 profit</div>
+                </div>
+
+                <div class="vocab-item">
+                    <div class="vocab-term">Profit Margin</div>
+                    <div class="vocab-definition">The percentage of your selling price that is profit.</div>
+                    <div class="vocab-example">💡 Example: $5 profit on a $10 item = 50% profit margin</div>
+                </div>
+
+                <div class="vocab-item">
+                    <div class="vocab-term">Wholesale Price</div>
+                    <div class="vocab-definition">The lower price you'd charge when selling in bulk to stores (so THEY can resell it).</div>
+                    <div class="vocab-example">💡 Example: You sell to a pet store for $4/bag so they can sell for $7/bag.</div>
+                </div>
+
+                <div class="vocab-item">
+                    <div class="vocab-term">Retail Price</div>
+                    <div class="vocab-definition">The full price customers pay when buying directly from you.</div>
+                    <div class="vocab-example">💡 Example: At a farmers market, customers pay $7/bag directly to you.</div>
+                </div>
+
+                <div class="vocab-item">
+                    <div class="vocab-term">Overhead</div>
+                    <div class="vocab-definition">Hidden costs beyond materials: electricity, tools, marketing, your time, booth fees, etc.</div>
+                    <div class="vocab-example">💡 Example: Your Etsy fees, business cards, and the mixer you use to make treats.</div>
+                </div>
+
+                <div class="vocab-item age-14-18" style="display: none;">
+                    <div class="vocab-term">Break-Even Point</div>
+                    <div class="vocab-definition">The number of sales needed to cover all your startup and operating costs—no profit, no loss.</div>
+                    <div class="vocab-example">💡 Example: You spent $100 on supplies. At $5 profit per item, you break even after selling 20 items.</div>
+                </div>
+
+                <div class="vocab-item age-14-18" style="display: none;">
+                    <div class="vocab-term">ROI (Return on Investment)</div>
+                    <div class="vocab-definition">The percentage of profit you make compared to how much you invested.</div>
+                    <div class="vocab-example">💡 Example: Invested $50, made $75 back = 50% ROI (you earned $25 profit on $50 invested).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Industry Markups -->
+        <div class="section-card" id="markups">
+            <h2>📊 Industry Standard Markups</h2>
+            <p>Different products have different "normal" markups. Here's what real businesses use:</p>
+
+            <table class="markup-table">
+                <tr>
+                    <th>Product Type</th>
+                    <th>Typical Markup</th>
+                    <th>What It Means</th>
+                </tr>
+                <tr>
+                    <td>🍪 Baked goods / Food</td>
+                    <td>100-150%</td>
+                    <td>2x to 2.5x your cost</td>
+                </tr>
+                <tr class="highlight">
+                    <td>🐕 Pet treats</td>
+                    <td>100-200%</td>
+                    <td>2x to 3x your cost</td>
+                </tr>
+                <tr>
+                    <td>💍 Jewelry</td>
+                    <td>100-300%</td>
+                    <td>2x to 4x your cost</td>
+                </tr>
+                <tr>
+                    <td>👕 Clothing / Apparel</td>
+                    <td>100-300%</td>
+                    <td>2x to 4x your cost</td>
+                </tr>
+                <tr>
+                    <td>🎨 Art / Crafts</td>
+                    <td>100-400%</td>
+                    <td>2x to 5x your cost</td>
+                </tr>
+                <tr>
+                    <td>🧴 Bath / Beauty</td>
+                    <td>100-200%</td>
+                    <td>2x to 3x your cost</td>
+                </tr>
+                <tr>
+                    <td>📦 General Retail</td>
+                    <td>50-100%</td>
+                    <td>1.5x to 2x your cost</td>
+                </tr>
+            </table>
+
+            <div class="success-box">
+                <strong>💡 Pro Tip:</strong> Handmade and artisan products can often command HIGHER markups because customers value the craftsmanship and uniqueness. Don't undersell yourself!
+            </div>
+        </div>
+
+        <!-- Section: Things to Consider -->
+        <div class="section-card" id="considerations">
+            <h2>🤔 Things to Consider When Pricing</h2>
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        💰 What are your competitors charging?
+                    </div>
+                    <div class="accordion-content">
+                        <p>Look at what others sell similar products for. If everyone sells dog treats for $8-12 per bag, pricing yours at $25 might be too high (unless yours are super special!). But also don't go too low—if you're at $3 when others are at $8, customers might think something is wrong with your product.</p>
+                        <p><strong>✅ Action:</strong> Search Etsy, local markets, and stores to see what similar products cost.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        🎯 Who is your customer?
+                    </div>
+                    <div class="accordion-content">
+                        <p>A dog owner who shops at Whole Foods and buys organic food for their pet will pay MORE for "premium organic dog treats" than someone shopping at a dollar store. Know your customer!</p>
+                        <p><strong>✅ Action:</strong> Think about where you'll sell and who will buy. Farmers markets and boutiques = can charge more. School fundraiser = keep it affordable.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        ✨ What makes your product special?
+                    </div>
+                    <div class="accordion-content">
+                        <p>If you can explain WHY your product is worth more, you CAN charge more! Things that add value: organic ingredients, handmade with care, custom orders, local ingredients, unique flavors/designs, eco-friendly packaging.</p>
+                        <p><strong>✅ Action:</strong> Make a list of 3-5 things that make your product special. Use these in your marketing!</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📱 Where will you sell?
+                    </div>
+                    <div class="accordion-content">
+                        <p>Different selling places have different fees that eat into your profit:</p>
+                        <ul style="margin: 12px 0; padding-left: 20px;">
+                            <li><strong>Etsy:</strong> ~10-12% in fees</li>
+                            <li><strong>Farmers Market:</strong> $20-100 booth fee per day</li>
+                            <li><strong>Craft Fairs:</strong> $25-200 table fee</li>
+                            <li><strong>Instagram/Direct:</strong> Payment processing ~3%</li>
+                            <li><strong>Consignment stores:</strong> They keep 30-50% of sales</li>
+                        </ul>
+                        <p><strong>✅ Action:</strong> Add selling fees to your costs BEFORE calculating your price!</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📦 Do you want to sell wholesale?
+                    </div>
+                    <div class="accordion-content">
+                        <p>If a store wants to carry your product, they'll want to buy at HALF your retail price (so they can mark it up and make money too). This means your retail price needs to be at least 2x your cost to sell wholesale AND make profit.</p>
+                        <p><strong>💡 Example:</strong> If it costs you $3 to make, sell retail at $8. Stores buy at $4, you still profit $1, and they sell at $8.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        🎁 Can you offer deals and discounts?
+                    </div>
+                    <div class="accordion-content">
+                        <p>Customers LOVE discounts! But you can only offer them if your regular price has enough profit built in. A 20% off sale is great marketing—but only if you're not losing money!</p>
+                        <p><strong>✅ Action:</strong> Set your price high enough that you can offer 10-20% off and still make profit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Common Mistakes -->
+        <div class="section-card" id="mistakes">
+            <h2>🚫 Common Pricing Mistakes (Don't Do These!)</h2>
+
+            <div class="warning-box">
+                <strong>❌ Mistake #1: Not Paying Yourself</strong><br>
+                Your time is valuable! If you spend 2 hours making treats, that's 2 hours you could be doing something else. Always include your hourly rate as a cost.
+            </div>
+
+            <div class="warning-box">
+                <strong>❌ Mistake #2: Forgetting Hidden Costs</strong><br>
+                It's not just ingredients! Don't forget: electricity, gas to buy supplies, wear on your tools, labels, bags, business cards, and selling platform fees.
+            </div>
+
+            <div class="warning-box">
+                <strong>❌ Mistake #3: Racing to the Bottom</strong><br>
+                Trying to be the cheapest is a losing game. Someone can always undercut you. Instead, focus on being the BEST and charge accordingly.
+            </div>
+
+            <div class="warning-box">
+                <strong>❌ Mistake #4: Emotional Pricing</strong><br>
+                Don't price based on what YOU would pay or what feels "fair." Price based on your ACTUAL costs plus profit. The math doesn't lie!
+            </div>
+
+            <div class="warning-box">
+                <strong>❌ Mistake #5: Never Raising Prices</strong><br>
+                When your supply costs go up, your prices should too! Review your pricing every 6 months.
+            </div>
+        </div>
+
+        <!-- Section: Pricing Checklist -->
+        <div class="section-card">
+            <h2>✅ Your Pricing Checklist</h2>
+            <p>Before you set your price, make sure you can check off each of these:</p>
+
+            <ul class="checklist">
+                <li>I've added up ALL my material/supply costs</li>
+                <li>I've calculated my time at a fair hourly rate ($10-15+ minimum)</li>
+                <li>I've included packaging costs per item</li>
+                <li>I've considered selling platform fees (Etsy, market booth, etc.)</li>
+                <li>I've researched what competitors charge</li>
+                <li>My price is at least 2x my total costs</li>
+                <li>I would make a profit if I offered a 20% discount</li>
+                <li>I could sell to stores at half my retail price and still profit</li>
+                <li>My price feels right for my target customer</li>
+                <li>I've tested my price with a few sales</li>
+            </ul>
+        </div>
+
+        <!-- Section: Quick Tips -->
+        <div class="section-card" id="tips">
+            <h2>💡 Quick Pricing Tips</h2>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">🔢</div>
+                    <div class="tip-title">Use Charm Pricing</div>
+                    <div class="tip-text">Prices ending in .99 or .95 feel cheaper. $6.99 feels like "6 dollars" even though it's almost $7!</div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">📦</div>
+                    <div class="tip-title">Offer Bundles</div>
+                    <div class="tip-text">"3 bags for $18" sounds like a better deal than "$7 each" even if it's similar pricing!</div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">📈</div>
+                    <div class="tip-title">Start Higher</div>
+                    <div class="tip-text">It's easier to lower prices than raise them. If you're not sure, start a little higher and see how it goes.</div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">📝</div>
+                    <div class="tip-title">Track Everything</div>
+                    <div class="tip-text">Keep a notebook or spreadsheet of every purchase. You'll need this for pricing AND taxes!</div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">🗣️</div>
+                    <div class="tip-title">Ask for Feedback</div>
+                    <div class="tip-text">After you make some sales, ask customers what they think of your pricing. Their answers might surprise you!</div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">🎯</div>
+                    <div class="tip-title">Test Different Prices</div>
+                    <div class="tip-text">Try $6 one week and $8 the next. See which sells better AND makes you more money overall.</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 12px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 12px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Load and apply age setting
+            const savedAge = localStorage.getItem('yeeUserAge');
+            if (savedAge) {
+                document.body.classList.add('age-' + savedAge);
+                document.getElementById('ageBadge').textContent = '📍 Content for: ' + getAgeLabel(savedAge);
+            } else {
+                document.body.classList.add('no-age');
+            }
+        });
+
+        function getAgeLabel(age) {
+            const labels = {
+                '8-10': 'Ages 8-10 (Elementary)',
+                '11-13': 'Ages 11-13 (Middle School)',
+                '14-18': 'Ages 14-18 (High School)'
+            };
+            return labels[age] || 'All Ages';
+        }
+
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // Update active nav button
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

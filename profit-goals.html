@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit Goal Calculator | Young Empowered Entrepreneur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #2D5F6E;
+            --primary-gold: #F5B041;
+            --light-teal: #4ECDC4;
+            --dark-teal: #1A3A42;
+            --cream: #FFF8F0;
+            --soft-gold: #FCE5B6;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --success: #27AE60;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--primary-teal);
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Goal Card */
+        .goal-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .goal-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .goal-card .subtitle {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Quick Goals */
+        .quick-goals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-goal {
+            padding: 12px 20px;
+            background: var(--cream);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .quick-goal:hover {
+            border-color: var(--light-teal);
+        }
+
+        .quick-goal.selected {
+            background: var(--soft-gold);
+            border-color: var(--primary-gold);
+        }
+
+        /* Custom Goal Input */
+        .custom-goal {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .custom-goal label {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .custom-goal .input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .custom-goal input {
+            width: 100%;
+            padding: 14px 16px 14px 32px;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .custom-goal input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .custom-goal .input-wrapper::before {
+            content: '$';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Product Info */
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .product-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group .hint {
+            font-size: 11px;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .form-group input {
+            padding: 12px 14px;
+            border: 2px solid #E8E8E8;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .input-prefix {
+            position: relative;
+        }
+
+        .input-prefix input {
+            padding-left: 28px;
+        }
+
+        .input-prefix::before {
+            content: '$';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Calculate Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 28px;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #D49A38;
+            transform: translateY(-2px);
+        }
+
+        /* Results */
+        .results-card {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--dark-teal) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .results-card.show {
+            display: block;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .big-number {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .big-number .number {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .big-number .label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .result-breakdown {
+            background: rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            font-size: 14px;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-row .label {
+            opacity: 0.9;
+        }
+
+        .result-row .value {
+            font-weight: 700;
+        }
+
+        /* Timeline */
+        .timeline-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .timeline-card.show {
+            display: block;
+        }
+
+        .timeline-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timeline-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .timeline-option {
+            background: var(--cream);
+            border-radius: 14px;
+            padding: 18px 12px;
+            text-align: center;
+        }
+
+        .timeline-option .period {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .timeline-option .items {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            color: var(--primary-teal);
+            font-weight: 700;
+        }
+
+        .timeline-option .per {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        /* Tips */
+        .tips-card {
+            background: var(--soft-gold);
+            border-radius: 16px;
+            padding: 20px;
+            display: none;
+        }
+
+        .tips-card.show {
+            display: block;
+        }
+
+        .tips-card h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            color: var(--primary-teal);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tips-card ul {
+            padding-left: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        footer a { color: var(--primary-teal); text-decoration: none; }
+        footer .brand { color: var(--primary-gold); font-weight: 600; }
+
+        @media (max-width: 500px) {
+            .form-row { grid-template-columns: 1fr; }
+            .timeline-options { grid-template-columns: 1fr; }
+            .big-number .number { font-size: 56px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>🎯 Profit Goal Calculator</h1>
+                <p>Find out how many items to sell!</p>
+            </div>
+        </div>
+
+        <!-- Goal Selection -->
+        <div class="goal-card">
+            <h2>💰 What's Your Goal?</h2>
+            <p class="subtitle">How much money do you want to make (profit)?</p>
+
+            <div class="quick-goals">
+                <button class="quick-goal" data-amount="25" onclick="selectGoal(this)">$25</button>
+                <button class="quick-goal" data-amount="50" onclick="selectGoal(this)">$50</button>
+                <button class="quick-goal" data-amount="100" onclick="selectGoal(this)">$100</button>
+                <button class="quick-goal" data-amount="200" onclick="selectGoal(this)">$200</button>
+                <button class="quick-goal" data-amount="500" onclick="selectGoal(this)">$500</button>
+            </div>
+
+            <div class="custom-goal">
+                <label>Or enter amount:</label>
+                <div class="input-wrapper">
+                    <input type="number" id="goalAmount" placeholder="0" min="1" onchange="updateGoalFromInput()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-card">
+            <h2>📦 Your Product Info</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Product Name <span class="hint">(optional)</span></label>
+                    <input type="text" id="productName" placeholder="e.g., Dog Treats">
+                </div>
+                <div class="form-group">
+                    <label>Selling Price <span class="hint">(per item)</span></label>
+                    <div class="input-prefix">
+                        <input type="number" id="sellingPrice" placeholder="7.00" step="0.01" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Your Cost <span class="hint">(per item)</span></label>
+                    <div class="input-prefix">
+                        <input type="number" id="itemCost" placeholder="3.50" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Or Profit Per Item <span class="hint">(if known)</span></label>
+                    <div class="input-prefix">
+                        <input type="number" id="profitPerItem" placeholder="3.50" step="0.01" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="calculate()">🧮 Calculate How Many to Sell!</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results-card" id="resultsCard">
+            <h2>🎉 To Reach Your Goal...</h2>
+            
+            <div class="big-number">
+                <div class="number" id="itemsNeeded">0</div>
+                <div class="label" id="itemsLabel">items to sell</div>
+            </div>
+
+            <div class="result-breakdown">
+                <div class="result-row">
+                    <span class="label">Your Goal</span>
+                    <span class="value" id="resultGoal">$0</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Selling Price Each</span>
+                    <span class="value" id="resultPrice">$0</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Your Cost Each</span>
+                    <span class="value" id="resultCost">$0</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Profit Per Item</span>
+                    <span class="value" id="resultProfit">$0</span>
+                </div>
+                <div class="result-row">
+                    <span class="label">Total Revenue Needed</span>
+                    <span class="value" id="resultRevenue">$0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline-card" id="timelineCard">
+            <h3>🗓️ If You Want to Reach This In...</h3>
+            <div class="timeline-options">
+                <div class="timeline-option">
+                    <div class="period">1 Week</div>
+                    <div class="items" id="perWeek">0</div>
+                    <div class="per">per day</div>
+                </div>
+                <div class="timeline-option">
+                    <div class="period">1 Month</div>
+                    <div class="items" id="perMonth">0</div>
+                    <div class="per">per week</div>
+                </div>
+                <div class="timeline-option">
+                    <div class="period">3 Months</div>
+                    <div class="items" id="per3Month">0</div>
+                    <div class="per">per week</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="tips-card" id="tipsCard">
+            <h4>💡 Tips to Reach Your Goal</h4>
+            <ul id="tipsList">
+                <li>Break it down into smaller weekly targets</li>
+                <li>Track every sale to stay motivated</li>
+                <li>Tell more people about your business</li>
+                <li>Consider selling at events or markets</li>
+                <li>Offer bundles to sell more at once</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p class="brand">Young Empowered Entrepreneur</p>
+            <p>Powered by Discover Your Success with Alayna Marie</p>
+            <p style="margin-top: 10px;">
+                <a href="https://igniteempowermentfoundation.org" target="_blank">Nonprofit Resources</a> | 
+                <a href="https://www.ignitepositivechanges.com" target="_blank">Fractional Services</a>
+            </p>
+            <p style="margin-top: 10px;">© 2025 Alayna Marie Weimer. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('yeeToolkitAuth') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        let selectedGoal = 0;
+
+        function selectGoal(btn) {
+            document.querySelectorAll('.quick-goal').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedGoal = parseInt(btn.dataset.amount);
+            document.getElementById('goalAmount').value = selectedGoal;
+        }
+
+        function updateGoalFromInput() {
+            document.querySelectorAll('.quick-goal').forEach(b => b.classList.remove('selected'));
+            selectedGoal = parseFloat(document.getElementById('goalAmount').value) || 0;
+            
+            // Highlight if matches a quick goal
+            document.querySelectorAll('.quick-goal').forEach(b => {
+                if (parseInt(b.dataset.amount) === selectedGoal) {
+                    b.classList.add('selected');
+                }
+            });
+        }
+
+        function calculate() {
+            const goal = parseFloat(document.getElementById('goalAmount').value) || 0;
+            const price = parseFloat(document.getElementById('sellingPrice').value) || 0;
+            const cost = parseFloat(document.getElementById('itemCost').value) || 0;
+            let profit = parseFloat(document.getElementById('profitPerItem').value) || 0;
+
+            // Calculate profit if not entered directly
+            if (profit === 0 && price > 0) {
+                profit = price - cost;
+            }
+
+            if (goal <= 0 || profit <= 0) {
+                alert('Please enter your goal and either your price/cost OR profit per item!');
+                return;
+            }
+
+            const itemsNeeded = Math.ceil(goal / profit);
+            const totalRevenue = itemsNeeded * price;
+
+            // Update results
+            document.getElementById('itemsNeeded').textContent = itemsNeeded;
+            document.getElementById('itemsLabel').textContent = itemsNeeded === 1 ? 'item to sell' : 'items to sell';
+            document.getElementById('resultGoal').textContent = '$' + goal.toFixed(2);
+            document.getElementById('resultPrice').textContent = '$' + price.toFixed(2);
+            document.getElementById('resultCost').textContent = '$' + cost.toFixed(2);
+            document.getElementById('resultProfit').textContent = '$' + profit.toFixed(2);
+            document.getElementById('resultRevenue').textContent = '$' + totalRevenue.toFixed(2);
+
+            // Timeline calculations
+            const perDay = Math.ceil(itemsNeeded / 7);
+            const perWeekMonth = Math.ceil(itemsNeeded / 4);
+            const perWeek3Month = Math.ceil(itemsNeeded / 12);
+
+            document.getElementById('perWeek').textContent = perDay;
+            document.getElementById('perMonth').textContent = perWeekMonth;
+            document.getElementById('per3Month').textContent = perWeek3Month;
+
+            // Generate tips based on numbers
+            generateTips(itemsNeeded, profit, goal);
+
+            // Show results
+            document.getElementById('resultsCard').classList.add('show');
+            document.getElementById('timelineCard').classList.add('show');
+            document.getElementById('tipsCard').classList.add('show');
+            
+            document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateTips(items, profit, goal) {
+            const tips = [];
+            
+            if (items > 50) {
+                tips.push("That's a lot of items! Consider raising your prices to reduce the number needed");
+                tips.push("Focus on finding venues where you can sell many at once (markets, events)");
+            } else if (items > 20) {
+                tips.push("Very achievable! Plan to sell a few each week");
+                tips.push("Try selling at a school event or local market");
+            } else {
+                tips.push("Great target! You could reach this selling to friends and family");
+                tips.push("Consider making a bigger batch to sell at one event");
+            }
+
+            if (profit < 3) {
+                tips.push("Your profit per item is low - consider raising prices or cutting costs");
+            }
+
+            if (goal >= 100) {
+                tips.push("Set mini-milestones ($25, $50) to stay motivated!");
+            }
+
+            tips.push("Track every sale to watch your progress");
+            tips.push("Celebrate when you hit your goal! 🎉");
+
+            document.getElementById('tipsList').innerHTML = tips.map(t => `<li>${t}</li>`).join('');
+        }
+    </script>
+</body>
+</html>
